@@ -1,0 +1,89 @@
+CREATE TABLE User (
+    UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Role TEXT CHECK(Role IN ('admin','assistant','donor')) NOT NULL,
+    FirstName TEXT NOT NULL,
+    LastName TEXT NOT NULL,
+    Email TEXT UNIQUE NOT NULL,
+    Password TEXT NOT NULL,
+    CNP CHAR(13) UNIQUE NOT NULL,
+);
+
+
+
+CREATE TABLE Donation (
+    DonationID INTEGER PRIMARY KEY AUTOINCREMENT,
+    DonorID INTEGER NOT NULL,
+    AssistantID INTEGER,
+    BloodGroup TEXT NOT NULL,
+    RhType TEXT CHECK(RhType IN ('+', '-')) NOT NULL,
+    Quantity INTEGER CHECK (Quantity > 0),
+    DonationDate DATE NOT NULL,
+    Status TEXT CHECK(Status IN ('completed', 'returned')) NOT NULL,
+    Notes TEXT,
+    FOREIGN KEY (DonorID) REFERENCES User(UserID) ON DELETE CASCADE,
+    FOREIGN KEY (AssistantID) REFERENCES User(UserID) ON DELETE SET NULL
+);
+
+CREATE TABLE BloodStock (
+    BloodGroup TEXT NOT NULL,
+    RhType TEXT CHECK(RhType IN ('+', '-')) NOT NULL,
+    QuantityInStock INTEGER DEFAULT 0,
+    PRIMARY KEY (BloodGroup, RhType)
+);
+
+CREATE TABLE Schedule (
+    ScheduleID INTEGER PRIMARY KEY AUTOINCREMENT,
+    DonorID INTEGER NOT NULL,
+    AppointmentDate DATETIME NOT NULL,
+    Status TEXT CHECK(Status IN ('pending', 'canceled')) DEFAULT 'pending',
+    FOREIGN KEY (DonorID) REFERENCES User(UserID) ON DELETE CASCADE
+);
+
+CREATE TABLE Reward (
+    RewardID INTEGER PRIMARY KEY AUTOINCREMENT,
+    UserID INTEGER NOT NULL,
+    RewardDescription TEXT NOT NULL,
+    RewardDate DATE NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE CASCADE
+);
+
+CREATE TABLE EligibilityForm (
+    FormID INTEGER PRIMARY KEY AUTOINCREMENT,
+    UserID INTEGER NOT NULL,
+    HealthStatus TEXT NOT NULL,
+    BloodGroup TEXT NOT NULL,
+    RhType TEXT CHECK(RhType IN ('+', '-')) NOT NULL,
+    IsEligible BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE CASCADE
+);
+
+CREATE TABLE Report (
+    ReportID INTEGER PRIMARY KEY AUTOINCREMENT,
+    UserID INTEGER,
+    ReportType TEXT NOT NULL,
+    ReportData TEXT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE SET NULL
+);
+
+CREATE TABLE Resource (
+    ResourceID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Title TEXT NOT NULL,
+    Content TEXT NOT NULL,
+    Link TEXT NOT NULL
+);
+
+CREATE TABLE Notification (
+    NotificationID INTEGER PRIMARY KEY AUTOINCREMENT,
+    UserID INTEGER,
+    NotificationType TEXT NOT NULL,
+    Message TEXT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE CASCADE
+);
+
+CREATE TABLE ActivityLog (
+    ActivityLogID INTEGER PRIMARY KEY AUTOINCREMENT,
+    UserID INTEGER NOT NULL,
+    Action TEXT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE CASCADE
+);
+
