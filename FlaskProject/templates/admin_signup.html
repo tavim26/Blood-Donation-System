@@ -1,63 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/static/styles.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Signup</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            width: 300px;
-        }
-        label, input {
-            margin: 10px 0;
-        }
-        input[type="submit"] {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+    <script src="/static/validation.js"></script>
+    <div class="container">
+        <h2 class="text-center">Admin Signup</h2>
+        <form action="/create_admin" method="POST" class="form-signin">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" required>
+            </div>
 
-    <h2>Admin Signup</h2>
-    <form action="/create_admin" method="POST">
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" required>
+            </div>
 
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+            <div class="form-group">
+                <label for="repeat_password">Repeat Password:</label>
+                <input type="password" id="repeat_password" name="repeat_password" class="form-control" required>
+            </div>
 
-        <label for="repeat_password">Repeat Password:</label>
-        <input type="password" id="repeat_password" name="repeat_password" required>
+            <div class="form-group">
+                <label for="cnp">CNP:</label>
+                <input type="text" id="cnp" name="cnp" class="form-control" required>
+            </div>
 
-        <label for="cnp">CNP:</label>
-        <input type="text" id="cnp" name="cnp" required>
+            <input type="submit" value="Sign Up" class="btn btn-primary btn-block">
+        </form>
 
-        <input type="submit" value="Sign Up">
-    </form>
-
-    <div class="login-link">
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <div class="login-link text-center">
+            <p>Already have an account? <a href="/login">Login</a></p>
+        </div>
     </div>
-
 </body>
 </html>

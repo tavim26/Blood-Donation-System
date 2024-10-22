@@ -1,85 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/static/styles.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donor Signup</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .form-container {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .form-container form {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-container form input, .form-container form select {
-            margin-bottom: 10px;
-            padding: 10px;
-        }
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+    <script src="/static/validation.js"></script>
+    <div class="container">
+        <h2 class="text-center">Donor Signup</h2>
+        <form action="/create_donor" method="POST" class="form-signin">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" required>
+            </div>
 
-    <h2>Donor Signup</h2>
-    <div class="form-container">
-        <form action="/create_donor" method="POST">
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" required>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" required>
+            </div>
 
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" required>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <div class="form-group">
+                <label for="repeat_password">Repeat Password:</label>
+                <input type="password" id="repeat_password" name="repeat_password" class="form-control" required>
+            </div>
 
-            <label for="repeat_password">Repeat Password:</label>
-            <input type="password" id="repeat_password" name="repeat_password" required>
+            <div class="form-group">
+                <label for="cnp">CNP:</label>
+                <input type="text" id="cnp" name="cnp" class="form-control" required>
+            </div>
 
-            <label for="cnp">CNP:</label>
-            <input type="text" id="cnp" name="cnp" required>
+            <div class="form-group">
+                <label for="blood_group">Blood Group:</label>
+                <select id="blood_group" name="blood_group" class="form-control" required>
+                    <option value="" disabled selected>Select your blood group</option>
+                    <option value="0-">0-</option>
+                    <option value="0+">0+</option>
+                    <option value="A-">A-</option>
+                    <option value="A+">A+</option>
+                    <option value="B-">B-</option>
+                    <option value="B+">B+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="AB+">AB+</option>
+                </select>
+            </div>
 
-            <label for="blood_group">Blood Group:</label>
-            <select id="blood_group" name="blood_group" required>
-                <option value="" disabled selected>Select your blood group</option>
-                <option value="0-">0-</option>
-                <option value="0+">0+</option>
-                <option value="A-">A-</option>
-                <option value="A+">A+</option>
-                <option value="B-">B-</option>
-                <option value="B+">B+</option>
-                <option value="AB-">AB-</option>
-                <option value="AB+">AB+</option>
-            </select>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" class="form-control" required>
+            </div>
 
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" class="form-control" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
 
-            <label for="gender">Gender:</label>
-            <select id="gender" name="gender" required>
-                <option value="" disabled selected>Select your gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-
-            <input type="submit" value="Sign Up">
+            <input type="submit" value="Sign Up" class="btn btn-primary btn-block">
         </form>
 
-        <div class="login-link">
+        <div class="login-link text-center">
             <p>Already have an account? <a href="/login">Login</a></p>
         </div>
     </div>
-
 </body>
 </html>

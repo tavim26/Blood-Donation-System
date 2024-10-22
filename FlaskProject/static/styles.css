@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.form-container {
+    max-width: 200px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #3989bf;
+    border-radius: 10px;
+    background-color: #3989bf;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #3989bf;
+    border-radius: 5px;
+}
+
+input.is-invalid, select.is-invalid {
+    border-color: #e74c3c;
+}
+
+.form-text {
+    color: #e74c3c;
+    font-size: 0.9rem;
+}

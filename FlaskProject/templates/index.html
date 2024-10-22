@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/static/styles.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Donation System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Welcome to the Blood Donation System</h1>
-    <h2>Sign up as:</h2>
-    <button onclick="window.location.href='/donor_signup'">Donor</button>
-    <button onclick="window.location.href='/assistant_signup'">Assistant</button>
-    <button onclick="window.location.href='/admin_signup'">Admin</button>
+    <script src="/static/validation.js"></script>
+    <div class="container text-center">
+        <h1>Welcome to the Blood Donation System</h1>
+        <h2>Sign up as:</h2>
+        <button class="btn btn-primary" onclick="window.location.href='/donor_signup'">Donor</button>
+        <button class="btn btn-secondary" onclick="window.location.href='/assistant_signup'">Assistant</button>
+        <button class="btn btn-success" onclick="window.location.href='/admin_signup'">Admin</button>
 
-<div class="login-link">
-    <p>Already have an account? <a href="/login">Login</a></p>
-</div>
-
+        <div class="login-link">
+            <p>Already have an account? <a href="/login">Login</a></p>
+        </div>
+    </div>
 </body>
 </html>
