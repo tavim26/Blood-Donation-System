@@ -1,3 +1,5 @@
+from sqlalchemy import func
+
 from database import db
 
 
@@ -57,3 +59,83 @@ class Donor(db.Model):
         self.BloodGroup = blood_group
         self.Age = age
         self.Gender = gender
+
+from sqlalchemy import func  # Asigură-te că ai importat func din SQLAlchemy
+
+class Donation(db.Model):
+    __tablename__ = 'Donation'
+    DonationID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    DonorID = db.Column(db.Integer, db.ForeignKey('Donor.DonorID', ondelete='CASCADE'), nullable=False)
+    AssistantID = db.Column(db.Integer, db.ForeignKey('Assistant.AssistantID', ondelete='SET NULL'))
+    BloodGroup = db.Column(db.String(5), nullable=False)
+    Quantity = db.Column(db.Integer, nullable=False)
+    DonationDate = db.Column(db.Date, nullable=False)
+    Status = db.Column(db.String(10), nullable=False)
+    Notes = db.Column(db.Text)
+
+    __table_args__ = (
+        db.CheckConstraint("Status IN ('completed', 'returned')"),
+    )
+
+
+class BloodStock(db.Model):
+    __tablename__ = 'BloodStock'
+    BloodGroup = db.Column(db.String(5), primary_key=True, nullable=False)
+    QuantityInStock = db.Column(db.Integer, default=0)
+
+
+class Schedule(db.Model):
+    __tablename__ = 'Schedule'
+    ScheduleID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    DonorID = db.Column(db.Integer, db.ForeignKey('Donor.DonorID', ondelete='CASCADE'), nullable=False)
+    AppointmentDate = db.Column(db.DateTime, nullable=False)
+    Status = db.Column(db.String(10), default='pending', nullable=False)
+
+    __table_args__ = (
+        db.CheckConstraint("Status IN ('pending', 'canceled')"),
+    )
+
+
+class Reward(db.Model):
+    __tablename__ = 'Reward'
+    RewardID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    DonorID = db.Column(db.Integer, db.ForeignKey('Donor.DonorID', ondelete='CASCADE'), nullable=False)
+    RewardDescription = db.Column(db.Text, nullable=False)
+    RewardDate = db.Column(db.Date, nullable=False)
+
+
+class EligibilityForm(db.Model):
+    __tablename__ = 'EligibilityForm'
+    FormID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    DonorID = db.Column(db.Integer, db.ForeignKey('Donor.DonorID', ondelete='CASCADE'), nullable=False)
+    BloodGroup = db.Column(db.String(5), nullable=False)
+    Age = db.Column(db.Integer, nullable=False)
+    Gender = db.Column(db.String(10), nullable=False)
+    Weight = db.Column(db.Integer, nullable=False)
+    Notes = db.Column(db.Text, nullable=False)
+    IsEligible = db.Column(db.Boolean, default=True)
+
+
+class Report(db.Model):
+    __tablename__ = 'Report'
+    ReportID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    AssistantID = db.Column(db.Integer, db.ForeignKey('Assistant.AssistantID', ondelete='SET NULL'), nullable=True)
+    DonorID = db.Column(db.Integer, db.ForeignKey('Donor.DonorID', ondelete='SET NULL'), nullable=True)
+    ReportType = db.Column(db.String(50), nullable=False)
+    ReportData = db.Column(db.Text, nullable=False)
+
+
+class Notification(db.Model):
+    __tablename__ = 'Notification'
+    NotificationID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    DonorID = db.Column(db.Integer, db.ForeignKey('Donor.DonorID', ondelete='CASCADE'))
+    NotificationType = db.Column(db.String(50), nullable=False)
+    Message = db.Column(db.Text, nullable=False)
+
+
+class ActivityLog(db.Model):
+    __tablename__ = 'ActivityLog'
+    ActivityLogID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    UserID = db.Column(db.Integer, db.ForeignKey('User.UserID', ondelete='CASCADE'), nullable=False)
+    Action = db.Column(db.Text, nullable=False)
+    Timestamp = db.Column(db.DateTime, default=func.now(), nullable=False)  # Adăugat timestamp
