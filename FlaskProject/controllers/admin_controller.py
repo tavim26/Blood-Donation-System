@@ -1,4 +1,8 @@
 from flask import request, render_template, redirect, url_for, session, flash
+
+from models.blood_stock import BloodStock
+from models.report import Report
+from models.schedule import Schedule
 from models.user import User, db
 from models.assistant import Assistant
 from models.activity_log import ActivityLog
@@ -38,4 +42,35 @@ def create_admin_controllers(app):
         users = User.query.all()
         activity_logs = ActivityLog.query.all()
 
-        return render_template('admin_dashboard.html', admin=admin, users=users, activity_logs=activity_logs)
+        return render_template('admin/admin_dashboard.html', admin=admin, users=users, activity_logs=activity_logs)
+
+    @app.route('/manage_users')
+    def manage_users():
+        donors = Donor.query.all()
+        assistants = Assistant.query.all()
+        return render_template('admin/manage_users.html', donors=donors, assistants=assistants)
+
+    @app.route('/blood_stock_statistics')
+    def blood_stock_statistics():
+        blood_stocks = BloodStock.query.all()
+        return render_template('admin/blood_stock_statistics.html', blood_stocks=blood_stocks)
+
+    @app.route('/activity_log')
+    def activity_log():
+        activity_logs = ActivityLog.query.all()
+        return render_template('admin/activity_log.html', activity_logs=activity_logs)
+
+    @app.route('/reports')
+    def reports():
+        reports = Report.query.all()
+        return render_template('admin/reports.html', reports=reports)
+
+    @app.route('/schedule')
+    def schedule():
+        schedules = Schedule.query.all()
+        return render_template('admin/schedule.html', schedules=schedules)
+
+    @app.route('/logout')
+    def logout():
+        session.clear()
+        return redirect(url_for('login'))
