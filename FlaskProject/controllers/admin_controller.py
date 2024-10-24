@@ -74,3 +74,21 @@ def create_admin_controllers(app):
     def logout():
         session.clear()
         return redirect(url_for('login'))
+
+    @app.route('/edit_admin_profile', methods=['POST'])
+    def edit_admin_profile():
+        admin_id = session.get('user_id')
+        admin = User.query.get(admin_id)
+
+        if admin:
+            admin.FirstName = request.form.get('first_name')
+            admin.LastName = request.form.get('last_name')
+            admin.Email = request.form.get('email')
+            admin.CNP = request.form.get('cnp')
+
+            db.session.commit()
+            return '', 204  # OK, fără conținut
+        else:
+            return '', 404  # Admin not found
+
+

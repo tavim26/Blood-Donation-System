@@ -35,9 +35,6 @@ body {
     background-color: #007bff; /* Culoare albastră */
 }
 
-.navbar .nav-link {
-    color: white; /* Text alb */
-}
 
 .navbar .navbar-brand {
     color: white; /* Text alb pentru brand */
@@ -45,4 +42,7 @@ body {
 
 .navbar .nav-link:hover {
     color: #dcdcdc; /* Culoare de hover mai deschisă */
+}
+.navbar .nav-link {
+    background-color: transparent; /* Asigură-te că fundalul este transparent */
 }
