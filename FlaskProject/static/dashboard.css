@@ -1,0 +1,25 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar for Admin Profile */
+#adminProfileSidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+/* Content Styling */
+h2 {
+    margin-top: 20px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.container-fluid {
+    max-width: 1200px;
+    margin: 0 auto;
+}

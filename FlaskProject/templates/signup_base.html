@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Signup{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    {% block additional_styles %}{% endblock %}
+
+</head>
+
+
+<body>
+
+    <script src="/static/validation.js"></script>
+
+    <div class="container">
+
+        <h2 class="text-center">{% block header %}Signup{% endblock %}</h2>
+
+        <form action="{% block form_action %}{% endblock %}" method="POST" class="form-signin">
+            {% block form_fields %}
+
+            <!-- Default fields here -->
+
+            {% endblock %}
+
+            <input type="submit" value="Sign Up" class="btn btn-primary btn-block">
+
+        </form>
+
+        <div class="login-link text-center">
+
+            <p>Already have an account? <a href="/login">Login</a></p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

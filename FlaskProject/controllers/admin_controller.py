@@ -130,6 +130,9 @@ def create_admin_controllers(app):
             # Dacă este GET, trimitem atât Donor cât și User în template
             return render_template('admin/donor_update.html', donor=edit_donor, user=edit_user)
 
+
+
+
     @app.route("/delete/assistant/<int:id>")
     def deleteAssistant(id: int):
         delete_assistant = Assistant.query.get_or_404(id)
@@ -142,6 +145,29 @@ def create_admin_controllers(app):
             return redirect(url_for('admin_dashboard'))
         except Exception as e:
             return str(e)
+
+
+    @app.route("/update/assistant/<int:id>", methods=['GET', 'POST'])
+    def updateAssistant(id: int):
+        edit_assistant = Assistant.query.get_or_404(id)
+
+        edit_user = User.query.get_or_404(edit_assistant.UserID)
+
+        if request.method == "POST":
+
+            edit_user.FirstName = request.form['first_name']
+            edit_user.LastName = request.form['last_name']
+            edit_user.Email = request.form['email']
+            edit_user.Password = request.form['password']
+            edit_user.CNP = request.form['cnp']
+
+            try:
+                db.session.commit()
+                return redirect(url_for('admin_dashboard'))
+            except Exception as e:
+                return str(e)
+        else:
+            return render_template('admin/assistant_update.html', assistant=edit_assistant, user=edit_user)
 
 
 

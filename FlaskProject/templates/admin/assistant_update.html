@@ -1,0 +1,31 @@
+{% extends "update_base.html" %}
+
+{% block title %}Update Assistant{% endblock %}
+{% block header %}Update Assistant{% endblock %}
+{% block form_action %}/update/assistant/{{ assistant.AssistantID }}{% endblock %}
+{% block form_content %}
+    <!-- Input pentru First Name (din User) -->
+    <label for="first_name">First Name</label>
+    <input type="text" id="first_name" name="first_name" value="{{ user.FirstName }}" required>
+    <br>
+
+    <!-- Input pentru Last Name (din User) -->
+    <label for="last_name">Last Name</label>
+    <input type="text" id="last_name" name="last_name" value="{{ user.LastName }}" required>
+    <br>
+
+    <!-- Input pentru Email (din User) -->
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ user.Email }}" required>
+    <br>
+
+    <!-- Input pentru Password (din User) -->
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" value="{{ user.Password }}" required>
+    <br>
+
+    <!-- Input pentru CNP (din User) -->
+    <label for="cnp">CNP</label>
+    <input type="text" id="cnp" name="cnp" value="{{ user.CNP }}" required>
+    <br>
+{% endblock %}
