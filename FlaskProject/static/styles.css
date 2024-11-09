@@ -1,68 +1,121 @@
 /* Aplicație pentru toate paginile */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #69d1e1;
     margin: 0;
     padding: 0;
 }
 
 /* Container general pentru toate form-urile */
 .container {
-    max-width: 400px; /* Setează lățimea maximă a form-ului */
-    margin: 0 auto; /* Centrare pe ecran */
-    padding: 20px;
+    max-width: 450px; /* Lățime mai largă pentru form-uri */
+    margin: 50px auto; /* Centrare pe ecran cu spațiu sus/jos */
+    padding: 25px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Umbre mai vizibile */
+    overflow: hidden; /* Previne elementele care ies din container */
 }
 
 /* Titluri pentru form-uri */
-h2 {
-    margin-bottom: 20px;
+h1 {
+    text-align: center; /* Aliniere centrală a titlului */
+    margin-bottom: 25px; /* Margine mai mare pentru spațiu */
+    color: #343a40;
 }
 
-/* Asigură spațierea și alinierea uniformă a câmpurilor */
-.form-group label {
-    font-weight: bold;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-control {
+/* Stilizare generală pentru câmpurile input */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select {
     width: 100%; /* Lățimea câmpurilor să fie 100% din container */
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ced4da;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px; /* Spațiu între câmpuri */
 }
 
-/* Buton de submit uniformizat */
-.btn-primary {
+/* Focus pe câmpuri input */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Stilizare pentru câmpurile de select */
+select {
+    height: 40px; /* Ajustează înălțimea selectului */
+}
+
+/* Buton de submit personalizat */
+input[type="submit"] {
     background-color: #007bff;
+    color: #fff;
     border: none;
-    padding: 10px;
-    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
-    width: 100%;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Lățimea butonului */
+}
+
+/* Hover pe butonul de submit */
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Buton activ pe click */
+input[type="submit"]:active {
+    background-color: #004085;
+}
+
+/* Margine generală pentru formular */
+form {
+    padding: 20px 0;
+}
+
+/* Stilizare pentru link-ul de login/register */
+.login-link {
+    margin-top: 20px;
+    text-align: center;
 }
 
 /* Link de login/register */
-.login-link {
-    margin-top: 15px;
-}
-
-/* Aliniere centrală a link-urilor */
 .login-link a {
     color: #007bff;
     text-decoration: none;
+    font-size: 16px;
 }
 
+/* Hover pe link-ul de login/register */
 .login-link a:hover {
     text-decoration: underline;
 }
-.container .btn {
-    margin: 10px;
-    width: 200px; /* Ajustează lățimea butoanelor */
-    font-size: 18px;
+
+/* Stilizare pentru etichetele câmpurilor */
+label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #495057;
+}
+
+/* Asigură spațierea și alinierea uniformă a câmpurilor */
+.form-group {
+    margin-bottom: 20px; /* Spațiu între grupuri */
+}
+
+/* Îmbunătățirea stilului pentru câmpurile de intrare (input) */
+input {
+    border-radius: 8px; /* Colțuri rotunjite */
 }

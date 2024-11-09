@@ -5,13 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c17c8d79-0692-4bcb-a8b2-e1a5c5f8f88e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c56be22a-834a-420b-9913-d818e888266b.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c56be22a-834a-420b-9913-d818e888266b/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e0bbd518-68b9-41a4-b764-383c81f91aac.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e0bbd518-68b9-41a4-b764-383c81f91aac/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/donor_update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/FlaskProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FlaskProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/403361b2-7e27-4953-9fa3-ecd43b0abc73.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/403361b2-7e27-4953-9fa3-ecd43b0abc73.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/validation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/activity_log.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/admin_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/admin_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/blood_stock_statistics.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/manage_users.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/reports.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/schedule.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/assistant_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/assistant_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/donor_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/donor_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +77,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/home/okkuta/Desktop/Projects/AssignmentIS/Homework1",
+    "last_opened_file_path": "C:/Users/tavim/Desktop/Projects/Blood-Donation-System/FlaskProject",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -121,6 +135,7 @@
       <workItem from="1729604684060" duration="43018000" />
       <workItem from="1730275762988" duration="369000" />
       <workItem from="1730291572093" duration="16000" />
+      <workItem from="1731157578716" duration="8853000" />
     </task>
     <servers />
   </component>
@@ -128,7 +143,7 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlaskProject$FlaskProject.coverage" NAME="FlaskProject Coverage Results" MODIFIED="1731166995698" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlaskProject$create_db.coverage" NAME="create_db Coverage Results" MODIFIED="1729614756268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FlaskProject$FlaskProject.coverage" NAME="FlaskProject Coverage Results" MODIFIED="1730275980515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -4,10 +4,23 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('input', function (event) {
         const target = event.target;
 
-        if (target.id === 'email') {
-            validateEmail(target);
-        } else if (target.id === 'cnp') {
-            validateCNP(target);
+        switch (target.id) {
+            case 'email':
+                validateEmail(target);
+                break;
+            case 'cnp':
+                validateCNP(target);
+                break;
+            case 'first_name':
+            case 'last_name':
+                validateName(target);
+                break;
+            case 'password':
+                validatePassword(target);
+                break;
+            case 'age':
+                validateAge(target);
+                break;
         }
     });
 
@@ -29,12 +42,38 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function validateName(input) {
+        if (input.value.trim() === '') {
+            setInvalid(input, 'This field cannot be empty.');
+        } else {
+            clearInvalid(input);
+        }
+    }
+
+    function validatePassword(input) {
+        if (input.value.length < 6) {
+            setInvalid(input, 'Password must be at least 6 characters.');
+        } else {
+            clearInvalid(input);
+        }
+    }
+
+    function validateAge(input) {
+        const age = parseInt(input.value, 10);
+        if (isNaN(age) || age < 18) {
+            setInvalid(input, 'You must be at least 18 years old.');
+        } else {
+            clearInvalid(input);
+        }
+    }
+
     function setInvalid(input, message) {
         input.classList.add('is-invalid');
         let error = input.nextElementSibling;
         if (!error || !error.classList.contains('form-text')) {
             error = document.createElement('div');
             error.classList.add('form-text');
+            error.style.color = 'red'; // Mesajul de eroare în roșu
             input.after(error);
         }
         error.textContent = message;
