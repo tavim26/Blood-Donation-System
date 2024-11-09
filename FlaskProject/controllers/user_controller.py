@@ -1,4 +1,6 @@
 from flask import request, render_template, redirect, url_for, session, flash
+
+from models.authentication import Authentication
 from models.user import User, db
 
 def create_user_controllers(app):
@@ -10,16 +12,19 @@ def create_user_controllers(app):
             email = request.form.get('email')
             password = request.form.get('password')
 
-            # Cautăm utilizatorul în baza de date
             user = User.query.filter_by(Email=email).first()
 
-            # Verificăm dacă utilizatorul există și dacă parola este corectă
             if user and user.Password == password:
-                # Setăm sesiunea utilizatorului
                 session['user_id'] = user.UserID
                 session['role'] = user.Role
 
-                # Redirecționăm în funcție de rol
+                auth = Authentication.query.filter_by(UserID=user.UserID).first()
+
+                if auth:
+                    auth.token = True
+
+                db.session.commit()
+
                 if session['role'] == 'admin':
                     return redirect(url_for('admin_dashboard'))
                 elif session['role'] == 'assistant':
@@ -30,3 +35,24 @@ def create_user_controllers(app):
                 flash('Invalid credentials, please try again.', 'danger')
 
         return render_template('login.html')
+
+
+
+
+
+
+    @app.route('/logout')
+    def logout():
+
+        user_id = session.get('user_id')
+
+        if user_id:
+            auth = Authentication.query.filter_by(UserID=user_id).first()
+
+            if auth:
+                auth.token = False
+                db.session.commit()
+
+        session.clear()
+
+        return redirect(url_for('login'))

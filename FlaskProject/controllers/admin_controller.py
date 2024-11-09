@@ -10,6 +10,36 @@ from models.donor import Donor
 from models.admin import Admin
 
 def create_admin_controllers(app):
+    @app.route('/update_profile', methods=['POST'])
+    def update_profile():
+        admin_id = session.get('user_id')
+        admin = User.query.get(admin_id)
+
+        if admin:
+            # Preluăm datele din cererea AJAX
+            first_name = request.form.get('first_name')
+            last_name = request.form.get('last_name')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            cnp = request.form.get('cnp')
+
+            # Actualizăm datele adminului
+            admin.FirstName = first_name
+            admin.LastName = last_name
+            admin.Email = email
+            admin.Password = password
+            admin.CNP = cnp
+
+            try:
+                db.session.commit()
+                return {'status': 'success'}
+            except Exception as e:
+                db.session.rollback()
+                return {'status': 'error', 'message': str(e)}
+
+        return {'status': 'error', 'message': 'Admin not found'}
+
+
 
     @app.route('/create_admin', methods=['POST'])
     def create_admin():
@@ -172,7 +202,4 @@ def create_admin_controllers(app):
 
 
 
-    @app.route('/logout')
-    def logout():
-        session.clear()
-        return redirect(url_for('login'))
+

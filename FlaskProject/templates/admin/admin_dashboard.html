@@ -1,51 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Admin Dashboard{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends "dashboard_base.html" %}
 
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">Admin Dashboard</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#adminProfile">Admin Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#donorTable">Donors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#assistantTable">Assistants</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% block title %}
+    Admin Dashboard
+{% endblock %}
 
-    <!-- Main Content -->
-    <div class="container mt-5" id="adminProfile">
-        <h2>Admin Profile</h2>
-        <!-- Form pentru editarea profilului adminului (nicio modificare suplimentară aici) -->
-        <form method="POST" id="editForm">
-            <!-- Câmpurile de profil admin -->
-        </form>
+{% block sidebar_title %}
+    Welcome!
+{% endblock %}
+
+{% block sidebar_content %}
+    <form method="POST" id="editForm">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ admin.FirstName }}" readonly>
     </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ admin.LastName }}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ admin.Email }}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" value="{{ admin.Password }}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="cnp">CNP</label>
+        <input type="text" class="form-control" id="cnp" name="cnp" value="{{ admin.CNP }}" readonly>
+    </div>
+
+        <a href="/logout" class="btn btn-secondary">Log Out</a>
+    </form>
+
+
+{% endblock %}
+
+
+
+
+
+{% block main_content %}
+
 
     <!-- Donor Table -->
     <div class="container mt-5" id="donorTable">
-
         <h2>Donors</h2>
         <table class="table table-striped">
-
             <thead>
                 <tr>
                     <th>First Name</th>
@@ -58,10 +60,8 @@
                     <th>Blood Group</th>
                     <th>Actions</th>
                 </tr>
-
             </thead>
             <tbody>
-
                 {% for donor in donors %}
                 <tr>
                     <td>{{ donor.FirstName }}</td>
@@ -72,19 +72,13 @@
                     <td>{{ donor.Age }}</td>
                     <td>{{ donor.Gender }}</td>
                     <td>{{ donor.BloodGroup }}</td>
-
                     <td>
-
-                        <a href="/delete/donor/{{ donor.DonorID }}"> Delete </a>
+                        <a href="/delete/donor/{{ donor.DonorID }}">Delete</a>
                         <br/>
-                        <a href="/update/donor/{{ donor.DonorID }}"> Update </a>
-
-
+                        <a href="/update/donor/{{ donor.DonorID }}">Update</a>
                     </td>
                 </tr>
-
                 {% endfor %}
-
             </tbody>
         </table>
     </div>
@@ -95,46 +89,30 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Password</th>
                     <th>CNP</th>
                     <th>Actions</th>
-
-
                 </tr>
             </thead>
             <tbody>
-
                 {% for assistant in assistants %}
                 <tr>
-
                     <td>{{ assistant.FirstName }}</td>
                     <td>{{ assistant.LastName }}</td>
                     <td>{{ assistant.Email }}</td>
                     <td>{{ assistant.Password }}</td>
                     <td>{{ assistant.CNP }}</td>
                     <td>
-
-                       <a href = "/delete/assistant/{{ assistant.AssistantID }}" > Delete </a>
+                        <a href="/delete/assistant/{{ assistant.AssistantID }} ">Delete</a>
                         <br/>
-                        <a href = "/update/assistant/{{ assistant.AssistantID }}"> Update </a>
-
+                        <a href="/update/assistant/{{ assistant.AssistantID }}">Update</a>
                     </td>
                 </tr>
-
                 {% endfor %}
-
             </tbody>
         </table>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-</body>
-</html>
+{% endblock %}

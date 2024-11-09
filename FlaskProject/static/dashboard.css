@@ -1,6 +1,7 @@
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
+    background-color: #c2d9dd
 }
 
 /* Sidebar for Admin Profile */
@@ -23,3 +24,34 @@ h2 {
     max-width: 1200px;
     margin: 0 auto;
 }
+
+/* Sidebar pentru Admin Profile */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 300px; /* Lățimea sidebar-ului */
+    padding: 20px;
+    background-color: #00d9fd; /* Fundal albastru deschis */
+    border-right: 1px solid #ccc;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrează pe verticală */
+    align-items: center; /* Centrează pe orizontală */
+}
+
+/* Conținutul sidebar-ului */
+.sidebar-content {
+    width: 100%; /* Asigură că ocupă toată lățimea sidebar-ului */
+    padding: 10px;
+    text-align: center; /* Centrează textul pe orizontală */
+}
+
+
+
+.container {
+    margin-left: 270px; /* Asigură că conținutul principal nu se suprapune cu sidebar-ul */
+}
+

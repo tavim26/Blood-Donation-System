@@ -11,18 +11,19 @@
 
     <div class="container-fluid mt-5">
         <div class="row">
+
             <!-- Sidebar -->
             <div class="col-md-3" id="sidebar">
                 <h2>{% block sidebar_title %}User Profile{% endblock %}</h2>
-                <div>
-                    <!-- Profile form or sidebar content -->
+                    <div class="sidebar-content">
                     {% block sidebar_content %}
-                    <form method="POST" id="editForm">
-                        <!-- Fields to be customized in each dashboard -->
-                    </form>
+                        <form method="POST" id="editForm">
+                             <!-- Fields to be customized in each dashboard -->
+                        </form>
                     {% endblock %}
-                </div>
-            </div>
+                    </div>
+             </div>
+
 
             <!-- Main Content -->
             <div class="col-md-9">
