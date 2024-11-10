@@ -197,26 +197,7 @@
 
 
 
-    <!-- Blood Stock  -->
-<div class="container mt-5" id="donationTable">
-    <h2>Activity Log</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Blood Group</th>
-                <th>Quantity in Stock</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for blood_stock in blood_stocks %}
-            <tr>
-                <td>{{ blood_stock.BloodGroup }}</td>
-                <td>{{ blood_stock.QuantityInStock }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+
 
 <!-- Elementul canvas pentru grafic -->
 <div class="container mt-5">

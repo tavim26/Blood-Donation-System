@@ -79,6 +79,11 @@
                 <td>{{ donation.Status }}</td>
                 <td>{{ donation.Notes }}</td>
 
+                <td>
+                    <a href="/complete/donation/{{ donation.donor.ID }}" class="btn btn-primary">Complete Donation</a>
+                    <a href="/return/donation{{ donation.donor.ID }}" class="btn btn-primary">Return Donation</a>
+                </td>
+
             </tr>
             {% endfor %}
         </tbody>
@@ -110,8 +115,13 @@
         <tbody>
             {% for schedule in schedules %}
             <tr>
+                <td>{{ schedule.donor.FirstName }} {{ schedule.donor.LastName }}</td>
                 <td>{{ schedule.AppointmentDate }}</td>
-                <td>{{ schedule.form.name }}</td>
+
+                <td>
+                    <a href="/form/details/{{ schedule.form.FormID }}">{{ schedule.form.name }}</a>
+                </td>
+
                 <td>{{ schedule.status }}</td>
                 <td>
 
@@ -127,17 +137,92 @@
 </div>
 
 
+        <!-- Report Table -->
+<div class="container mt-5" id="donationTable">
+    <h2>Reports</h2>
+
+    <a href="/create/report/{{ assistant.ID }}" class="btn btn-primary">Generate Report</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th> Donation </th>
+                <th> Report Type</th>
+                <th> Report Data</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>
+
+                     <a href="/donation/details/{{ donation.DonationID }}">{{ donation.donor.FirstName }}{{ donation.donor.LastName }}</a>
+
+                </td>
+                <td>{{ report.ReportType }}</td>
+                <td>{{ report.ReportData }}</td>
+
+                <td>
+                    <a href="/delete/report/{{ report.ReportID }}">Delete</a>
+                    <a href="/update/report/{{ report.ReportID }}">Update</a>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
 
 
+<!-- Elementul canvas pentru grafic -->
+<div class="container mt-5">
+    <h2>Blood Stock Chart</h2>
+    <canvas id="bloodStockChart"></canvas>
+</div>
 
+<!-- Include librăria Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+    // Pregătește datele pentru grafic
+    const labels = [
+        {% for blood_stock in blood_stocks %}
+        '{{ blood_stock.BloodGroup }}',
+        {% endfor %}
+    ];
 
+    const data = [
+        {% for blood_stock in blood_stocks %}
+        {{ blood_stock.QuantityInStock }},
+        {% endfor %}
+    ];
 
-
-
-
+    // Configurarea graficului
+    const ctx = document.getElementById('bloodStockChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar', // Poți schimba tipul graficului, ex. 'line', 'pie', etc.
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Quantity in Stock',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 
 {% endblock %}

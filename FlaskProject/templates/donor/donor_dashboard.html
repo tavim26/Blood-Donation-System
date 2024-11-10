@@ -54,7 +54,7 @@
 
 
           <!-- Notification Table -->
-<div class="container mt-5" id="donationTable">
+<div class="container mt-5" id="notificationTable">
     <h2>Notifications</h2>
 
     <table class="table table-striped">
@@ -81,10 +81,10 @@
 
 
       <!-- Schedule Table -->
-<div class="container mt-5" id="donationTable">
+<div class="container mt-5" id="scheduleTable">
     <h2>Schedules</h2>
 
-    <a href="/create_schedule" class="btn btn-primary">Create Schedule</a>
+    <a href="/create_schedule" class="btn btn-primary">Program a Donation</a>
 
 
     <table class="table table-striped">
@@ -119,10 +119,10 @@
 
 
          <!-- Forms Table -->
-<div class="container mt-5" id="donationTable">
+<div class="container mt-5" id="formTable">
     <h2>Formulars</h2>
 
-    <a href="/create_form" class="btn btn-primary">Create Form</a>
+    <a href="/create/form{{donor.DonorID}}" class="btn btn-primary">Complete Formular</a>
 
 
     <table class="table table-striped">
@@ -140,15 +140,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for form in forms %}
+            {% for eligibility_form in eligibility_forms %}
             <tr>
-                <td>{{ form.Name }}</td>
+               <td>{{ form.FormName }}</td>
                 <td>{{ form.BloodGroup }}</td>
                 <td>{{ form.Age }}</td>
                 <td>{{ form.Gender }}</td>
                 <td>{{ form.Weight }}</td>
                 <td>{{ form.Notes }}</td>
-                <td>{{ form.Eligibility }}</td>
+                <td>{{ form.IsEligible }}</td>
                 <td>
 
                     <a href="update/form{{ form.FormID }}">Update</a>

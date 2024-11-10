@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Form Details</title>
+</head>
+<body>
+    <script src="/static/validation.js"></script>
+
+    <div class="container mt-4">
+        <h2>Form Details</h2>
+
+        <label for="form_name">Form Name</label>
+        <input type="text" id="form_name" name="form_name" value="{{ form.FormName }}" class="form-control mb-3" required>
+
+        <label for="blood_group">Blood Group</label>
+        <input type="text" id="blood_group" name="blood_group" value="{{ form.BloodGroup }}" class="form-control mb-3" required>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" value="{{ form.Age }}" class="form-control mb-3" required>
+
+        <label for="gender">Gender</label>
+        <input type="text" id="gender" name="gender" value="{{ form.Gender }}" class="form-control mb-3" required>
+
+        <label for="weight">Weight</label>
+        <input type="number" id="weight" name="weight" value="{{ form.Weight }}" class="form-control mb-3" required>
+
+        <label for="notes">Notes</label>
+        <input type="text" id="notes" name="notes" value="{{ form.Notes }}" class="form-control mb-3" required>
+
+        <label for="eligibility">Is Eligible</label>
+        <input type="text" id="eligibility" name="eligibility" value="{{ 'Yes' if form.IsEligible else 'No' }}" class="form-control mb-3" required>
+
+        <!-- Buttons -->
+        <div class="mt-4">
+            <a href="/form/download/{{ form.FormID }}" class="btn btn-primary">Download as PDF</a>
+            <a href="/assistant_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+
+    </div>
+</body>
+</html>
