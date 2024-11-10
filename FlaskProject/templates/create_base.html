@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <title>{% block title %}Add{% endblock %}</title>
+</head>
+<body>
+
+    <script src="/static/validation.js"></script>
+
+    <div class="container">
+        <h1>{% block header %}Add New Item{% endblock %}</h1>
+
+        <form method="POST" action="{% block form_action %}#{% endblock %}">
+
+            {% block form_content %}
+            <!-- Form inputs go here -->
+            {% endblock %}
+
+            <!-- Butonul de submit -->
+            <input type="submit" value="Add" class="btn btn-primary">
+
+        </form>
+    </div>
+
+</body>
+</html>

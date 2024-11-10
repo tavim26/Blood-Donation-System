@@ -1,0 +1,73 @@
+{% extends "create_base.html" %}
+
+{% block title %}
+    Add New Donor
+{% endblock %}
+
+{% block header %}
+    Add Donor
+{% endblock %}
+
+{% block form_action %}
+    /add/donor
+{% endblock %}
+
+{% block form_content %}
+    <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" id="first_name" name="first_name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" id="last_name" name="last_name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+
+    <div class="form-group">
+        <label for="cnp">CNP</label>
+        <input type="text" class="form-control" id="cnp" name="cnp" required>
+    </div>
+
+
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name="age" required>
+    </div>
+
+
+    <div class="form-group">
+    <label for="blood_group">Blood Group:</label>
+    <select id="blood_group" name="blood_group" class="form-control" required>
+        <option value="" disabled selected>Select your blood group</option>
+        <option value="0-">0-</option>
+        <option value="0+">0+</option>
+        <option value="A-">A-</option>
+        <option value="A+">A+</option>
+        <option value="B-">B-</option>
+        <option value="B+">B+</option>
+        <option value="AB-">AB-</option>
+        <option value="AB+">AB+</option>
+    </select>
+</div>
+
+
+
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <select class="form-control" id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+{% endblock %}

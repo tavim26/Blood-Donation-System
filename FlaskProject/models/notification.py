@@ -7,3 +7,4 @@ class Notification(db.Model):
     NotificationType = db.Column(db.String(50), nullable=False)
     Message = db.Column(db.Text, nullable=False)
 
+    donor = db.relationship('Donor', backref='notifications')

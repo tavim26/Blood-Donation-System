@@ -10,57 +10,10 @@ from models.donor import Donor
 from models.admin import Admin
 
 def create_admin_controllers(app):
-    @app.route('/update_profile', methods=['POST'])
-    def update_profile():
-        admin_id = session.get('user_id')
-        admin = User.query.get(admin_id)
-
-        if admin:
-            # Preluăm datele din cererea AJAX
-            first_name = request.form.get('first_name')
-            last_name = request.form.get('last_name')
-            email = request.form.get('email')
-            password = request.form.get('password')
-            cnp = request.form.get('cnp')
-
-            # Actualizăm datele adminului
-            admin.FirstName = first_name
-            admin.LastName = last_name
-            admin.Email = email
-            admin.Password = password
-            admin.CNP = cnp
-
-            try:
-                db.session.commit()
-                return {'status': 'success'}
-            except Exception as e:
-                db.session.rollback()
-                return {'status': 'error', 'message': str(e)}
-
-        return {'status': 'error', 'message': 'Admin not found'}
 
 
 
-    @app.route('/create_admin', methods=['POST'])
-    def create_admin():
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        cnp = request.form.get('cnp')
 
-        # Creăm un utilizator nou
-        new_user = User(first_name, last_name, email, password, cnp, 'admin')
-        db.session.add(new_user)
-        db.session.commit()
-
-        # Creăm un admin
-        admin_id = new_user.UserID
-        admin = Admin(admin_id=admin_id)
-        db.session.add(admin)
-        db.session.commit()
-
-        return redirect(url_for('login'))
 
     @app.route('/admin_dashboard')
     def admin_dashboard():
@@ -100,6 +53,10 @@ def create_admin_controllers(app):
 
         users = User.query.all()
         activity_logs = ActivityLog.query.all()
+        donations = Donation.query.all()
+        blood_stocks = BloodStock.query.all()
+        reports = Report.query.all()
+        schedules = Schedule.query.all()
 
         return render_template(
             'admin/admin_dashboard.html',
@@ -107,58 +64,39 @@ def create_admin_controllers(app):
             users=users,
             activity_logs=activity_logs,
             donors=donors,
-            assistants=assistants
+            assistants=assistants,
+            donations=donations,
+            blood_stocks=blood_stocks,
+            reports=reports,
+            schedules=schedules
+
         )
 
+    @app.route('/create_admin', methods=['POST'])
+    def create_admin():
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        cnp = request.form.get('cnp')
+
+        # Creăm un utilizator nou
+        new_user = User(first_name, last_name, email, password, cnp, 'admin')
+        db.session.add(new_user)
+        db.session.commit()
+
+        # Creăm un admin
+        admin_id = new_user.UserID
+        admin = Admin(admin_id=admin_id)
+        db.session.add(admin)
+        db.session.commit()
+
+        return redirect(url_for('login'))
 
 
-    #delete a donor
-    @app.route("/delete/donor/<int:id>")
-    def deleteDonor(id: int):
-        delete_donor = Donor.query.get_or_404(id)
 
-        try:
-            # Obținem referința utilizatorului asociat
-            user_to_delete = User.query.get(delete_donor.UserID)
-            # Ștergem utilizatorul
-            db.session.delete(user_to_delete)
-            # Ștergem donatorul
-            db.session.delete(delete_donor)
-            db.session.commit()
-            return redirect(url_for('admin_dashboard'))
 
-        except Exception as e:
-            return str(e)
 
-    @app.route("/update/donor/<int:id>", methods=['GET', 'POST'])
-    def updateDonor(id: int):
-        # Căutăm Donor-ul după ID
-        edit_donor = Donor.query.get_or_404(id)
-
-        # Căutăm User-ul asociat Donor-ului
-        edit_user = User.query.get_or_404(edit_donor.UserID)
-
-        if request.method == "POST":
-            # Actualizăm câmpurile din Donor
-            edit_donor.Age = request.form['age']
-            edit_donor.Gender = request.form['gender']
-            edit_donor.BloodGroup = request.form['bloodgroup']
-
-            # Actualizăm câmpurile din User
-            edit_user.FirstName = request.form['first_name']
-            edit_user.LastName = request.form['last_name']
-            edit_user.Email = request.form['email']
-            edit_user.Password = request.form['password']
-            edit_user.CNP = request.form['cnp']
-
-            try:
-                db.session.commit()
-                return redirect(url_for('admin_dashboard'))
-            except Exception as e:
-                return str(e)
-        else:
-            # Dacă este GET, trimitem atât Donor cât și User în template
-            return render_template('admin/donor_update.html', donor=edit_donor, user=edit_user)
 
 
 
@@ -175,6 +113,8 @@ def create_admin_controllers(app):
             return redirect(url_for('admin_dashboard'))
         except Exception as e:
             return str(e)
+
+
 
 
     @app.route("/update/assistant/<int:id>", methods=['GET', 'POST'])
