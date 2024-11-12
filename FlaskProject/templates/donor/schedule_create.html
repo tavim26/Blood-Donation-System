@@ -1,0 +1,34 @@
+{% extends "create_base.html" %}
+
+{% block title %}
+Add New Schedule
+{% endblock %}
+
+{% block header %}
+Add New Schedule for Donor
+{% endblock %}
+
+{% block form_action %}
+    /create/schedule/{{ donor.DonorID }}
+{% endblock %}
+
+{% block form_content %}
+
+<div class="form-group">
+    <label for="appointment_date">Appointment Date</label>
+    <input type="datetime-local" id="appointment_date" name="appointment_date" class="form-control" required>
+</div>
+
+
+<div class="form-group">
+    <label for="form_id">Select Form</label>
+    <select id="form_id" name="form_id" class="form-control" required>
+        {% for form in forms %}
+        <option value="{{ form.FormID }}">Form {{ form.FormID }} - {{ form.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<input type="hidden" id="status" name="status" value="pending">
+
+{% endblock %}

@@ -1,8 +1,26 @@
 {% extends "update_base.html" %}
 
-{% block title %}Update Assistant{% endblock %}
-{% block header %}Update Assistant{% endblock %}
-{% block form_action %}/update/assistant/{{ assistant.AssistantID }}{% endblock %}
+{% block title %}
+
+    Update Assistant
+
+{% endblock %}
+
+
+{% block header %}
+
+    Update Assistant
+
+{% endblock %}
+
+
+{% block form_action %}
+
+    /update/assistant/{{ assistant.AssistantID }}
+
+{% endblock %}
+
+
 {% block form_content %}
     <!-- Input pentru First Name (din User) -->
     <label for="first_name">First Name</label>
@@ -28,4 +46,6 @@
     <label for="cnp">CNP</label>
     <input type="text" id="cnp" name="cnp" value="{{ user.CNP }}" required>
     <br>
+
+
 {% endblock %}

@@ -84,7 +84,7 @@
 <div class="container mt-5" id="scheduleTable">
     <h2>Schedules</h2>
 
-    <a href="/create_schedule" class="btn btn-primary">Program a Donation</a>
+    <a href="/create/schedule/{{ donor.DonorID }}" class="btn btn-primary">Program a Donation</a>
 
 
     <table class="table table-striped">
@@ -105,8 +105,8 @@
                 <td>{{ schedule.status }}</td>
                 <td>
 
-                    <a href="update/schedule{{ schedule.ScheduleID }}">Update</a>
-                    <a href="delete/schedule{{ schedule.ScheduleID }}">Delete</a>
+                    <a href="update/schedule/{{ schedule.ScheduleID }}">Update</a>
+                    <a href="delete/schedule/{{ schedule.ScheduleID }}">Delete</a>
 
                 </td>
             </tr>
@@ -122,7 +122,7 @@
 <div class="container mt-5" id="formTable">
     <h2>Formulars</h2>
 
-    <a href="/create/form{{donor.DonorID}}" class="btn btn-primary">Complete Formular</a>
+    <a href="/create/form/{{ donor.DonorID }}" class="btn btn-primary">Complete Formular</a>
 
 
     <table class="table table-striped">
@@ -151,8 +151,8 @@
                 <td>{{ form.IsEligible }}</td>
                 <td>
 
-                    <a href="update/form{{ form.FormID }}">Update</a>
-                    <a href="delete/form{{ form.FormID }}">Delete</a>
+                    <a href="update/form/{{ form.FormID }}">Update</a>
+                    <a href="delete/form/{{ form.FormID }}">Delete</a>
 
                 </td>
             </tr>

@@ -1,0 +1,34 @@
+{% extends "create_base.html" %}
+
+{% block title %}Create Report{% endblock %}
+
+{% block header %}Create New Report{% endblock %}
+
+{% block form_action %}
+
+    /create/report/{{ assistant.AssistantID }}
+
+{% endblock %}
+
+{% block form_content %}
+<div class="form-group">
+    <label for="donation_id">Select Donation:</label>
+    <select class="form-control" id="donation_id" name="donation_id" required>
+        <option value="">Select Donation</option>
+        {% for donation in donations %}
+        <option value="{{ donation.DonationID }}">{{ donation.donor.FirstName }} {{ donation.donor.LastName }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="report_type">Report Type:</label>
+    <input type="text" class="form-control" id="report_type" name="report_type" required>
+</div>
+
+<div class="form-group">
+    <label for="report_data">Report Data:</label>
+    <textarea class="form-control" id="report_data" name="report_data" rows="4" required></textarea>
+</div>
+
+{% endblock %}
