@@ -19,12 +19,11 @@ Add New Schedule for Donor
     <input type="datetime-local" id="appointment_date" name="appointment_date" class="form-control" required>
 </div>
 
-
 <div class="form-group">
     <label for="form_id">Select Form</label>
     <select id="form_id" name="form_id" class="form-control" required>
-        {% for form in forms %}
-        <option value="{{ form.FormID }}">Form {{ form.FormID }} - {{ form.name }}</option>
+        {% for form in eligibility_forms %}
+        <option value="{{ form.FormID }}">Form {{ form.FormID }} - {{ form.FormName }}</option>
         {% endfor %}
     </select>
 </div>

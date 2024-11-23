@@ -9,33 +9,46 @@ from models.user import User, db
 from models.donor import Donor
 
 def create_donor_controllers(app):
-
-
-
     @app.route('/donor_dashboard')
     def donor_dashboard():
-        donor_id = session.get('user_id')
-        donor = User.query.get(donor_id)
+        user_id = session.get('user_id')
+        if user_id is None:
+            flash('Please log in to access the dashboard.', 'error')
+            return redirect(url_for('login'))
 
-        donations = Donation.query.filter_by(DonorID=donor_id).all()
-        schedules = Schedule.query.filter_by(DonorID=donor_id).all()
-        eligibility_forms = EligibilityForm.query.filter_by(DonorID=donor_id).all()
-        notifications = Notification.query.filter_by(DonorID=donor_id).all()
-        rewards = Reward.query.filter_by(DonorID=donor_id).all()
+        # Obținem utilizatorul asociat user_id
+        user = User.query.get(user_id)
+
+        if not user:
+            flash('User not found.', 'error')
+            return redirect(url_for('login'))
+
+        # Obținem donor-ul folosind user_id
+        donor = Donor.query.filter_by(UserID=user_id).first()
+        if not donor:
+            flash('Donor not found.', 'error')
+            return redirect(url_for('login'))
+
+        # Debug pentru verificare DonorID
+        print(f"DonorID: {donor.DonorID}")
+
+        # Folosim DonorID pentru a obține informațiile donorului
+        donations = Donation.query.filter_by(DonorID=donor.DonorID).all()
+        schedules = Schedule.query.filter_by(DonorID=donor.DonorID).all()
+        eligibility_forms = EligibilityForm.query.filter_by(DonorID=donor.DonorID).all()
+        notifications = Notification.query.filter_by(DonorID=donor.DonorID).all()
+        rewards = Reward.query.filter_by(DonorID=donor.DonorID).all()
 
         return render_template(
-
             'donor/donor_dashboard.html',
             donor=donor,
+            user=user,
             donations=donations,
             schedules=schedules,
             eligibility_forms=eligibility_forms,
             notifications=notifications,
             rewards=rewards
         )
-
-
-
 
     @app.route('/create_donor', methods=['POST'])
     def create_donor():

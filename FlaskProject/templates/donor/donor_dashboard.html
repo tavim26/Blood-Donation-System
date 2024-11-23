@@ -15,27 +15,27 @@
 
     <div class="form-group">
         <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ donor.FirstName }}" readonly>
+        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ user.FirstName }}" readonly>
     </div>
 
     <div class="form-group">
         <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ donor.LastName }}" readonly>
+        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ user.LastName }}" readonly>
     </div>
 
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" value="{{ donor.Email }}" readonly>
+        <input type="email" class="form-control" id="email" name="email" value="{{ user.Email }}" readonly>
     </div>
 
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="text" class="form-control" id="password" name="password" value="{{ donor.Password }}" readonly>
+        <input type="text" class="form-control" id="password" name="password" value="{{ user.Password }}" readonly>
     </div>
 
     <div class="form-group">
         <label for="cnp">CNP</label>
-        <input type="text" class="form-control" id="cnp" name="cnp" value="{{ donor.CNP }}" readonly>
+        <input type="text" class="form-control" id="cnp" name="cnp" value="{{ user.CNP }}" readonly>
     </div>
 
 
@@ -101,12 +101,12 @@
             {% for schedule in schedules %}
             <tr>
                 <td>{{ schedule.AppointmentDate }}</td>
-                <td>{{ schedule.form.name }}</td>
-                <td>{{ schedule.status }}</td>
+                <td>{{ schedule.form.FormName }}</td>
+                <td>{{ schedule.Status }}</td>
                 <td>
 
-                    <a href="update/schedule/{{ schedule.ScheduleID }}">Update</a>
-                    <a href="delete/schedule/{{ schedule.ScheduleID }}">Delete</a>
+                    <a href="update/schedule/{{ schedule.ScheduleID }}">Edit</a>
+                    <a href="delete/schedule/{{ schedule.ScheduleID }}">Cancel</a>
 
                 </td>
             </tr>
@@ -118,12 +118,11 @@
 
 
 
-         <!-- Forms Table -->
+  <!-- Eligibility Forms Table -->
 <div class="container mt-5" id="formTable">
     <h2>Formulars</h2>
 
     <a href="/create/form/{{ donor.DonorID }}" class="btn btn-primary">Complete Formular</a>
-
 
     <table class="table table-striped">
         <thead>
@@ -136,27 +135,29 @@
                 <th>Notes</th>
                 <th>Eligibility</th>
                 <th>Actions</th>
-
             </tr>
         </thead>
         <tbody>
-            {% for eligibility_form in eligibility_forms %}
-            <tr>
-               <td>{{ form.FormName }}</td>
-                <td>{{ form.BloodGroup }}</td>
-                <td>{{ form.Age }}</td>
-                <td>{{ form.Gender }}</td>
-                <td>{{ form.Weight }}</td>
-                <td>{{ form.Notes }}</td>
-                <td>{{ form.IsEligible }}</td>
-                <td>
-
-                    <a href="update/form/{{ form.FormID }}">Update</a>
-                    <a href="delete/form/{{ form.FormID }}">Delete</a>
-
-                </td>
-            </tr>
-            {% endfor %}
+            {% if eligibility_forms %}
+                {% for form in eligibility_forms %}
+                <tr>
+                    <td>{{ form.FormName }}</td>
+                    <td>{{ form.BloodGroup }}</td>
+                    <td>{{ form.Age }}</td>
+                    <td>{{ form.Gender }}</td>
+                    <td>{{ form.Weight }}</td>
+                    <td>{{ form.Notes }}</td>
+                    <td>{{ form.IsEligible }}</td>
+                    <td>
+                        <a href="delete/form/{{ form.FormID }}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8">No forms found</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 </div>

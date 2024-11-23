@@ -8,99 +8,70 @@
     Welcome!
 {% endblock %}
 
-
 {% block sidebar_content %}
-
     <form method="POST" id="editForm">
-
-    <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ assistant.FirstName }}" readonly>
-    </div>
-
-    <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ assistant.LastName }}" readonly>
-    </div>
-
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" value="{{ assistant.Email }}" readonly>
-    </div>
-
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="text" class="form-control" id="password" name="password" value="{{ assistant.Password }}" readonly>
-    </div>
-
-    <div class="form-group">
-        <label for="cnp">CNP</label>
-        <input type="text" class="form-control" id="cnp" name="cnp" value="{{ assistant.CNP }}" readonly>
-    </div>
-
-
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="first_name" value="{{ user.FirstName }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="last_name" value="{{ user.LastName }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.Email }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="text" class="form-control" id="password" name="password" value="{{ user.Password }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="cnp">CNP</label>
+            <input type="text" class="form-control" id="cnp" name="cnp" value="{{ user.CNP }}" readonly>
+        </div>
         <a href="/logout" class="btn btn-secondary">Log Out</a>
     </form>
-
 {% endblock %}
 
-
-
-
 {% block main_content %}
+    <!-- Donation Table -->
+    <div class="container mt-5" id="donationTable">
+        <h2>Donations</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Donor Name</th>
+                    <th>Blood Group</th>
+                    <th>Quantity</th>
+                    <th>Donation Date</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donation in donations %}
+                <tr>
+                    <td>{{ donation.donor.user.FirstName }} {{ donation.donor.user.LastName }}</td>
+                    <td>{{ donation.BloodGroup }}</td>
+                    <td>{{ donation.Quantity }}</td>
+                    <td>{{ donation.DonationDate }}</td>
+                    <td>{{ donation.Status }}</td>
+                    <td>{{ donation.Notes }}</td>
+                    <td>
+                        <a href="/complete/donation/{{ donation.donor.ID }}" class="btn btn-primary">Complete Donation</a>
+                        <a href="/return/donation{{ donation.donor.ID }}" class="btn btn-primary">Return Donation</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-
-
-
-
-          <!-- Donation Table -->
-<div class="container mt-5" id="donationTable">
-    <h2>Donations </h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Donor Name</th>
-                <th>Blood Group</th>
-                <th>Quantity</th>
-                <th>Donation Date</th>
-                <th>Status</th>
-                <th>Notes</th>
-                <th>Actions</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            {% for donation in donations %}
-            <tr>
-                <td>{{ donation.donor.FirstName }} {{ donation.donor.LastName }}</td>
-                <td>{{ donation.BloodGroup }}</td>
-                <td>{{ donation.Quantity }}</td>
-                <td>{{ donation.DonationDate }}</td>
-                <td>{{ donation.Status }}</td>
-                <td>{{ donation.Notes }}</td>
-
-                <td>
-                    <a href="/complete/donation/{{ donation.donor.ID }}" class="btn btn-primary">Complete Donation</a>
-                    <a href="/return/donation{{ donation.donor.ID }}" class="btn btn-primary">Return Donation</a>
-                </td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-
-
-      <!-- Schedule Table -->
-<div class="container mt-5" id="donationTable">
+   <!-- Schedule Table -->
+<div class="container mt-5" id="scheduleTable">
     <h2>Donor Schedules</h2>
-
-
     <table class="table table-striped">
         <thead>
             <tr>
@@ -109,26 +80,21 @@
                 <th>Eligibility Form</th>
                 <th>Status</th>
                 <th>Actions</th>
-
             </tr>
         </thead>
         <tbody>
             {% for schedule in schedules %}
             <tr>
-                <td>{{ schedule.donor.FirstName }} {{ schedule.donor.LastName }}</td>
+                <td>{{ schedule.donor.user.FirstName }} {{ schedule.donor.user.LastName }}</td>
                 <td>{{ schedule.AppointmentDate }}</td>
-
                 <td>
-                    <a href="/form/details/{{ schedule.form.FormID }}">{{ schedule.form.name }}</a>
+                    <a href="/view/form/{{ schedule.FormID }}">{{ schedule.form.FormName }}</a>
                 </td>
-
-                <td>{{ schedule.status }}</td>
+                <td>{{ schedule.Status }}</td>
                 <td>
-
-                    <a href="/view/formular{{ form.FormID }}">View Formular</a>
-                    <a href="/delete/schedule{{ schedule.ScheduleID }}">Cancel Schedule</a>
-                    <a href="/confirm/schedule{{ schedule.ScheduleID }}">Confirm Schedule</a>
-
+                    <a href="/cancel/schedule/{{ schedule.ScheduleID }}" >Cancel Schedule</a>
+                    <br>
+                    <a href="/confirm/schedule/{{ schedule.ScheduleID }}" >Confirm Schedule</a>
                 </td>
             </tr>
             {% endfor %}
@@ -136,94 +102,81 @@
     </table>
 </div>
 
+    <!-- Report Table -->
+    <div class="container mt-5" id="reportTable">
+        <h2>Reports</h2>
+        <a href="/create/report/{{ assistant.AssistantID }}" class="btn btn-primary">Generate Report</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Donation</th>
+                    <th>Report Type</th>
+                    <th>Report Data</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>
+                        <a href="/donation/details/{{ report.DonationID }}">{{ report.donation.donor.FirstName }} {{ report.donation.donor.LastName }}</a>
+                    </td>
+                    <td>{{ report.ReportType }}</td>
+                    <td>{{ report.ReportData }}</td>
+                    <td>
+                        <a href="/delete/report/{{ report.ReportID }}">Delete</a>
+                        <a href="/update/report/{{ report.ReportID }}">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-        <!-- Report Table -->
-<div class="container mt-5" id="donationTable">
-    <h2>Reports</h2>
+    <!-- Elementul canvas pentru grafic -->
+    <div class="container mt-5">
+        <h2>Blood Stock Chart</h2>
+        <canvas id="bloodStockChart"></canvas>
+    </div>
 
-<a href="/create/report/{{ assistant.AssistantID }}" class="btn btn-primary">Generate Report</a>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th> Donation </th>
-                <th> Report Type</th>
-                <th> Report Data</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in reports %}
-            <tr>
-                <td>
-
-                     <a href="/donation/details/{{ donation.DonationID }}">{{ donation.donor.FirstName }}{{ donation.donor.LastName }}</a>
-
-                </td>
-                <td>{{ report.ReportType }}</td>
-                <td>{{ report.ReportData }}</td>
-
-                <td>
-                    <a href="/delete/report/{{ report.ReportID }}">Delete</a>
-                    <a href="/update/report/{{ report.ReportID }}">Update</a>
-
-                </td>
-            </tr>
+    <!-- Include librăria Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Pregătește datele pentru grafic
+        const labels = [
+            {% for blood_stock in blood_stocks %}
+            '{{ blood_stock.BloodGroup }}',
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+        ];
 
+        const data = [
+            {% for blood_stock in blood_stocks %}
+            {{ blood_stock.QuantityInStock }},
+            {% endfor %}
+        ];
 
-
-
-<!-- Elementul canvas pentru grafic -->
-<div class="container mt-5">
-    <h2>Blood Stock Chart</h2>
-    <canvas id="bloodStockChart"></canvas>
-</div>
-
-<!-- Include librăria Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    // Pregătește datele pentru grafic
-    const labels = [
-        {% for blood_stock in blood_stocks %}
-        '{{ blood_stock.BloodGroup }}',
-        {% endfor %}
-    ];
-
-    const data = [
-        {% for blood_stock in blood_stocks %}
-        {{ blood_stock.QuantityInStock }},
-        {% endfor %}
-    ];
-
-    // Configurarea graficului
-    const ctx = document.getElementById('bloodStockChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar', // Poți schimba tipul graficului, ex. 'line', 'pie', etc.
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Quantity in Stock',
-                data: data,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Configurarea graficului
+        const ctx = document.getElementById('bloodStockChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar', // Poți schimba tipul graficului, ex. 'line', 'pie', etc.
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Quantity in Stock',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
-</script>
-
-
+        });
+    </script>
 {% endblock %}

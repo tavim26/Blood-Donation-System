@@ -13,3 +13,5 @@ class EligibilityForm(db.Model):
     Weight = db.Column(db.Integer, nullable=False)
     Notes = db.Column(db.Text, nullable=False)
     IsEligible = db.Column(db.Boolean, default=True)
+
+    donor = db.relationship('Donor', backref='eligibility_forms', lazy=True)

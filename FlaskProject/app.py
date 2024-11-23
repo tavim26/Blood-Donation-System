@@ -35,4 +35,8 @@ create_formular_controller(app)
 create_report_controller(app)
 
 if __name__ == '__main__':
+    print("Registered Routes:")
+    for rule in app.url_map.iter_rules():
+        print(f"Endpoint: {rule.endpoint}, Rule: {rule}")
+
     app.run(debug=True)

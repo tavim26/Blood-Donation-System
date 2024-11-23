@@ -1,50 +1,83 @@
-from flask import request, redirect, render_template
+from flask import request, redirect, render_template, url_for, flash
 from database import db
 from models.schedule import Schedule
+from models.donor import Donor
+from models.eligibility_form import EligibilityForm  # Asigură-te că importarea este corectă
+from datetime import datetime
 
 
 def create_schedule_controller(app):
+
+
     @app.route("/create/schedule/<int:id>", methods=["GET", "POST"])
     def create_schedule(id: int):
-        from datetime import datetime
-
+        donor = Donor.query.get_or_404(id)  # Obținem donor-ul sau returnăm 404 dacă nu există
 
         if request.method == "POST":
-            # Preia datele din formular
-            appointment_date = request.form.get("appointment_date")
-            form_id = request.form.get("form_id")
-            status = request.form.get("status", "pending")  # Status-ul poate fi 'pending' sau o valoare default
-
-            # Validează datele (optional)
-            if not appointment_date or not form_id:
-                return redirect(request.url)
-
-            # Convertim data într-un format datetime
             try:
-                appointment_date = datetime.strptime(appointment_date, "%Y-%m-%d %H:%M:%S")
-            except ValueError:
-                return redirect(request.url)
+                # Preia datele din formular
+                appointment_date_str = request.form['appointment_date']
+                form_id = int(request.form['form_id'])
+                status = request.form.get('status', 'pending')  # Status-ul implicit este 'pending'
 
-            # Creăm un nou obiect Schedule
-            new_schedule = Schedule(
-                DonorID=id,
-                FormID=int(form_id),
-                AppointmentDate=appointment_date,
-                Status=status
-            )
+                # Convertim data într-un format datetime fără secunde
+                appointment_date = datetime.strptime(appointment_date_str, "%Y-%m-%dT%H:%M")
 
-            # Adăugăm și comitem în baza de date
-            try:
+                # Creăm un nou obiect Schedule
+                new_schedule = Schedule(
+                    DonorID=id,
+                    FormID=form_id,
+                    AppointmentDate=appointment_date,
+                    Status=status
+                )
+
+                # Adăugăm și comitem în baza de date
                 db.session.add(new_schedule)
                 db.session.commit()
-                return redirect("/schedules")  # Redirecționează către o pagină relevantă
+
+                flash('Schedule created successfully!', 'success')
+                return redirect(url_for('donor_dashboard'))  # Redirecționăm către dashboard-ul donor-ului
+
             except Exception as e:
+                print(str(e))  # Este bine să afișezi eroarea pentru debug
                 db.session.rollback()
-                return redirect(request.url)
+                flash('An error occurred while creating the schedule.', 'error')
+                return redirect(request.url)  # Asigurăm returnarea unei răspuns valide în caz de eroare
 
         else:
-            return render_template("donor/schedule_create.html", donor_id=id)
+            # Obținem formularele de eligibilitate ale donor-ului
+            eligibility_forms = EligibilityForm.query.filter_by(DonorID=id).all()
+
+            return render_template('donor/schedule_create.html', donor=donor, eligibility_forms=eligibility_forms)
 
 
 
+    @app.route("/confirm/schedule/<int:id>")
+    def confirm_schedule(id):
+        schedule = Schedule.query.get_or_404(id)
+        try:
+            schedule.Status = 'confirmed'
+            db.session.commit()
+            flash('Schedule confirmed successfully.', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error: {str(e)}', 'danger')
+
+        return redirect(url_for('assistant_dashboard'))
+
+
+
+
+    @app.route("/cancel/schedule/<int:id>")
+    def cancel_schedule(id):
+        schedule = Schedule.query.get_or_404(id)
+        try:
+            schedule.Status = 'canceled'
+            db.session.commit()
+            flash('Schedule cancelled successfully.', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error: {str(e)}', 'danger')
+
+        return redirect(url_for('assistant_dashboard'))
 

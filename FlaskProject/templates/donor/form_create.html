@@ -17,7 +17,7 @@
 
     <div class="form-group">
         <label for="name">Form Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ donor.FirstName }} {{ donor.LastName }}  Form" required>
+        <input type="text" class="form-control" id="name" name="name" value="{{ donor.user.FirstName }} {{ donor.user.LastName }} Formular" required>
     </div>
 
     <div class="form-group">
@@ -60,5 +60,4 @@
         <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
 {% endblock %}
