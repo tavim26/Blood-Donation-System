@@ -1,10 +1,10 @@
 from database import db
 
+
 class Donation(db.Model):
     __tablename__ = 'Donation'
-
     DonationID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    ScheduleID = db.Column(db.Integer, db.ForeignKey('Schedule.ScheduleID', ondelete='SET NULL'), nullable=False)
+    ScheduleID = db.Column(db.Integer, db.ForeignKey('Schedule.ScheduleID', ondelete='CASCADE'))
     BloodGroup = db.Column(db.String(5), nullable=False)
     Quantity = db.Column(db.Integer, nullable=False)
     DonationDate = db.Column(db.Date, nullable=False)
@@ -16,4 +16,3 @@ class Donation(db.Model):
     __table_args__ = (
         db.CheckConstraint("Status IN ('completed', 'returned', 'pending')"),
     )
-

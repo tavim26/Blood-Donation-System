@@ -1,6 +1,7 @@
 from sqlalchemy import func
 from database import db
 
+
 class ActivityLog(db.Model):
     __tablename__ = 'ActivityLog'
     ActivityLogID = db.Column(db.Integer, primary_key=True, autoincrement=True)

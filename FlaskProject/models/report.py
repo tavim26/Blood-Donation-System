@@ -11,4 +11,3 @@ class Report(db.Model):
 
     donation = db.relationship('Donation', backref='reports')
     assistant = db.relationship('Assistant', backref='reports')
-

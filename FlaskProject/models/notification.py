@@ -1,5 +1,6 @@
 from database import db
 
+
 class Notification(db.Model):
     __tablename__ = 'Notification'
     NotificationID = db.Column(db.Integer, primary_key=True, autoincrement=True)

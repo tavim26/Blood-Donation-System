@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-11-24.14:52:26</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-11-24.16:37:24</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1648,6 +1648,7 @@
     </column>
     <foreign-key id="577" parent="556">
       <ColNames>UserID</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>UserID</RefColNames>
       <RefTableName>User</RefTableName>
     </foreign-key>
@@ -1667,6 +1668,7 @@
     </column>
     <foreign-key id="581" parent="557">
       <ColNames>UserID</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>UserID</RefColNames>
       <RefTableName>User</RefTableName>
     </foreign-key>
@@ -1690,6 +1692,7 @@
     </column>
     <foreign-key id="586" parent="558">
       <ColNames>UserID</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>UserID</RefColNames>
       <RefTableName>User</RefTableName>
     </foreign-key>
@@ -1725,7 +1728,6 @@
       <StoredType>INTEGER|0s</StoredType>
     </column>
     <column id="594" parent="560" name="ScheduleID">
-      <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
@@ -1755,7 +1757,7 @@
     </column>
     <foreign-key id="600" parent="560">
       <ColNames>ScheduleID</ColNames>
-      <OnDelete>set-null</OnDelete>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>ScheduleID</RefColNames>
       <RefTableName>Schedule</RefTableName>
     </foreign-key>
@@ -1790,6 +1792,7 @@
     </column>
     <foreign-key id="607" parent="561">
       <ColNames>UserID</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>UserID</RefColNames>
       <RefTableName>User</RefTableName>
     </foreign-key>
@@ -1803,7 +1806,6 @@
       <StoredType>INTEGER|0s</StoredType>
     </column>
     <column id="610" parent="562" name="DonorID">
-      <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>

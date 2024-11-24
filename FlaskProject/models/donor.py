@@ -1,9 +1,10 @@
 from database import db
 
+
 class Donor(db.Model):
     __tablename__ = 'Donor'
     DonorID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    UserID = db.Column(db.Integer, db.ForeignKey('User.UserID'), nullable=False)
+    UserID = db.Column(db.Integer, db.ForeignKey('User.UserID', ondelete='CASCADE'), nullable=False)
     BloodGroup = db.Column(db.String, nullable=False)
     Age = db.Column(db.String, nullable=False)
     Gender = db.Column(db.String, nullable=False)

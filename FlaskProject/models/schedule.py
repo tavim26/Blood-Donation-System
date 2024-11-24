@@ -1,5 +1,6 @@
 from database import db
 
+
 class Schedule(db.Model):
     __tablename__ = 'Schedule'
     ScheduleID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -8,11 +9,8 @@ class Schedule(db.Model):
     AppointmentDate = db.Column(db.DateTime, nullable=False)
     Status = db.Column(db.String(10), default='pending', nullable=False)
 
-
-
     donor = db.relationship('Donor', backref='schedules')
     form = db.relationship('EligibilityForm', backref='schedules')
-
 
     __table_args__ = (
         db.CheckConstraint("Status IN ('pending', 'canceled','confirmed','completed')"),
