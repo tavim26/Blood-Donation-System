@@ -19,7 +19,7 @@ def create_assistant_controllers(app):
 
         donors = Donor.query.all()
         schedules = Schedule.query.all()
-        donations = Donation.query.filter_by(AssistantID=assistant_id).all()
+        donations = Donation.query.all()
         blood_stocks = BloodStock.query.all()
         reports = Report.query.filter_by(AssistantID=assistant_id).all()
         forms = EligibilityForm.query.all()

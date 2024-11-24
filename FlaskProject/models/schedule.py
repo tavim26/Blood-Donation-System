@@ -15,5 +15,5 @@ class Schedule(db.Model):
 
 
     __table_args__ = (
-        db.CheckConstraint("Status IN ('pending', 'canceled','confirmed')"),
+        db.CheckConstraint("Status IN ('pending', 'canceled','confirmed','completed')"),
     )

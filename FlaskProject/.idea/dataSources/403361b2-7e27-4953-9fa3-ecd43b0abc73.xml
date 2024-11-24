@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-11-11.14:10:30</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-11-24.14:52:26</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1717,366 +1717,356 @@
       <UnderlyingIndexName>sqlite_autoindex_BloodStock_1</UnderlyingIndexName>
     </key>
     <check id="592" parent="560">
-      <Predicate>Status IN (&apos;completed&apos;, &apos;returned&apos;)</Predicate>
+      <Predicate>Status IN (&apos;completed&apos;, &apos;returned&apos;, &apos;pending&apos;)</Predicate>
     </check>
     <column id="593" parent="560" name="DonationID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="594" parent="560" name="DonorID">
+    <column id="594" parent="560" name="ScheduleID">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="595" parent="560" name="AssistantID">
-      <Position>3</Position>
-      <StoredType>INTEGER|0s</StoredType>
-    </column>
-    <column id="596" parent="560" name="BloodGroup">
+    <column id="595" parent="560" name="BloodGroup">
       <NotNull>1</NotNull>
-      <Position>4</Position>
+      <Position>3</Position>
       <StoredType>VARCHAR(5)|0s</StoredType>
     </column>
-    <column id="597" parent="560" name="Quantity">
+    <column id="596" parent="560" name="Quantity">
       <NotNull>1</NotNull>
-      <Position>5</Position>
+      <Position>4</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="598" parent="560" name="DonationDate">
+    <column id="597" parent="560" name="DonationDate">
       <NotNull>1</NotNull>
-      <Position>6</Position>
+      <Position>5</Position>
       <StoredType>DATE|0s</StoredType>
     </column>
-    <column id="599" parent="560" name="Status">
+    <column id="598" parent="560" name="Status">
       <NotNull>1</NotNull>
-      <Position>7</Position>
+      <Position>6</Position>
       <StoredType>VARCHAR(10)|0s</StoredType>
     </column>
-    <column id="600" parent="560" name="Notes">
-      <Position>8</Position>
+    <column id="599" parent="560" name="Notes">
+      <Position>7</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <foreign-key id="601" parent="560">
-      <ColNames>DonorID</ColNames>
-      <OnDelete>cascade</OnDelete>
-      <RefColNames>DonorID</RefColNames>
-      <RefTableName>Donor</RefTableName>
-    </foreign-key>
-    <foreign-key id="602" parent="560">
-      <ColNames>AssistantID</ColNames>
+    <foreign-key id="600" parent="560">
+      <ColNames>ScheduleID</ColNames>
       <OnDelete>set-null</OnDelete>
-      <RefColNames>AssistantID</RefColNames>
-      <RefTableName>Assistant</RefTableName>
+      <RefColNames>ScheduleID</RefColNames>
+      <RefTableName>Schedule</RefTableName>
     </foreign-key>
-    <key id="603" parent="560">
+    <key id="601" parent="560">
       <ColNames>DonationID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="604" parent="561" name="DonorID">
+    <column id="602" parent="561" name="DonorID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="605" parent="561" name="UserID">
+    <column id="603" parent="561" name="UserID">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="606" parent="561" name="BloodGroup">
+    <column id="604" parent="561" name="BloodGroup">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="607" parent="561" name="Age">
+    <column id="605" parent="561" name="Age">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="608" parent="561" name="Gender">
+    <column id="606" parent="561" name="Gender">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <foreign-key id="609" parent="561">
+    <foreign-key id="607" parent="561">
       <ColNames>UserID</ColNames>
       <RefColNames>UserID</RefColNames>
       <RefTableName>User</RefTableName>
     </foreign-key>
-    <key id="610" parent="561">
+    <key id="608" parent="561">
       <ColNames>DonorID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="611" parent="562" name="FormID">
+    <column id="609" parent="562" name="FormID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="612" parent="562" name="DonorID">
+    <column id="610" parent="562" name="DonorID">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="613" parent="562" name="FormName">
+    <column id="611" parent="562" name="FormName">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>VARCHAR(50)|0s</StoredType>
     </column>
-    <column id="614" parent="562" name="BloodGroup">
+    <column id="612" parent="562" name="BloodGroup">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>VARCHAR(5)|0s</StoredType>
     </column>
-    <column id="615" parent="562" name="Age">
+    <column id="613" parent="562" name="Age">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="616" parent="562" name="Gender">
+    <column id="614" parent="562" name="Gender">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>VARCHAR(10)|0s</StoredType>
     </column>
-    <column id="617" parent="562" name="Weight">
+    <column id="615" parent="562" name="Weight">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="618" parent="562" name="Notes">
+    <column id="616" parent="562" name="Notes">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="619" parent="562" name="IsEligible">
+    <column id="617" parent="562" name="IsEligible">
       <Position>9</Position>
       <StoredType>BOOLEAN|0s</StoredType>
     </column>
-    <foreign-key id="620" parent="562">
+    <foreign-key id="618" parent="562">
       <ColNames>DonorID</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>DonorID</RefColNames>
       <RefTableName>Donor</RefTableName>
     </foreign-key>
-    <key id="621" parent="562">
+    <key id="619" parent="562">
       <ColNames>FormID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="622" parent="563" name="NotificationID">
+    <column id="620" parent="563" name="NotificationID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="623" parent="563" name="DonorID">
+    <column id="621" parent="563" name="DonorID">
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="624" parent="563" name="NotificationType">
+    <column id="622" parent="563" name="NotificationType">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>VARCHAR(50)|0s</StoredType>
     </column>
-    <column id="625" parent="563" name="Message">
+    <column id="623" parent="563" name="Message">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <foreign-key id="626" parent="563">
+    <foreign-key id="624" parent="563">
       <ColNames>DonorID</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>DonorID</RefColNames>
       <RefTableName>Donor</RefTableName>
     </foreign-key>
-    <key id="627" parent="563">
+    <key id="625" parent="563">
       <ColNames>NotificationID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="628" parent="564" name="ReportID">
+    <column id="626" parent="564" name="ReportID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="629" parent="564" name="AssistantID">
+    <column id="627" parent="564" name="AssistantID">
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="630" parent="564" name="DonationID">
+    <column id="628" parent="564" name="DonationID">
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="631" parent="564" name="ReportType">
+    <column id="629" parent="564" name="ReportType">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>VARCHAR(50)|0s</StoredType>
     </column>
-    <column id="632" parent="564" name="ReportData">
+    <column id="630" parent="564" name="ReportData">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <foreign-key id="633" parent="564">
+    <foreign-key id="631" parent="564">
       <ColNames>AssistantID</ColNames>
       <OnDelete>set-null</OnDelete>
       <RefColNames>AssistantID</RefColNames>
       <RefTableName>Assistant</RefTableName>
     </foreign-key>
-    <foreign-key id="634" parent="564">
+    <foreign-key id="632" parent="564">
       <ColNames>DonationID</ColNames>
       <OnDelete>set-null</OnDelete>
       <RefColNames>DonationID</RefColNames>
       <RefTableName>Donation</RefTableName>
     </foreign-key>
-    <key id="635" parent="564">
+    <key id="633" parent="564">
       <ColNames>ReportID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="636" parent="565" name="RewardID">
+    <column id="634" parent="565" name="RewardID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="637" parent="565" name="DonorID">
+    <column id="635" parent="565" name="DonorID">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="638" parent="565" name="RewardDescription">
+    <column id="636" parent="565" name="RewardDescription">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="639" parent="565" name="RewardDate">
+    <column id="637" parent="565" name="RewardDate">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>DATE|0s</StoredType>
     </column>
-    <foreign-key id="640" parent="565">
+    <foreign-key id="638" parent="565">
       <ColNames>DonorID</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>DonorID</RefColNames>
       <RefTableName>Donor</RefTableName>
     </foreign-key>
-    <key id="641" parent="565">
+    <key id="639" parent="565">
       <ColNames>RewardID</ColNames>
       <Primary>1</Primary>
     </key>
-    <check id="642" parent="566">
-      <Predicate>Status IN (&apos;pending&apos;, &apos;canceled&apos;,&apos;confirmed&apos;)</Predicate>
+    <check id="640" parent="566">
+      <Predicate>Status IN (&apos;pending&apos;, &apos;canceled&apos;,&apos;confirmed&apos;,&apos;completed&apos;)</Predicate>
     </check>
-    <column id="643" parent="566" name="ScheduleID">
+    <column id="641" parent="566" name="ScheduleID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="644" parent="566" name="DonorID">
+    <column id="642" parent="566" name="DonorID">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="645" parent="566" name="FormID">
+    <column id="643" parent="566" name="FormID">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="646" parent="566" name="AppointmentDate">
+    <column id="644" parent="566" name="AppointmentDate">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>DATETIME|0s</StoredType>
     </column>
-    <column id="647" parent="566" name="Status">
+    <column id="645" parent="566" name="Status">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>VARCHAR(10)|0s</StoredType>
     </column>
-    <foreign-key id="648" parent="566">
+    <foreign-key id="646" parent="566">
       <ColNames>DonorID</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>DonorID</RefColNames>
       <RefTableName>Donor</RefTableName>
     </foreign-key>
-    <foreign-key id="649" parent="566">
+    <foreign-key id="647" parent="566">
       <ColNames>FormID</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>FormID</RefColNames>
       <RefTableName>EligibilityForm</RefTableName>
     </foreign-key>
-    <key id="650" parent="566">
+    <key id="648" parent="566">
       <ColNames>ScheduleID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="651" parent="567" name="UserID">
+    <column id="649" parent="567" name="UserID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="652" parent="567" name="Role">
+    <column id="650" parent="567" name="Role">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="653" parent="567" name="FirstName">
+    <column id="651" parent="567" name="FirstName">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="654" parent="567" name="LastName">
+    <column id="652" parent="567" name="LastName">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="655" parent="567" name="Email">
+    <column id="653" parent="567" name="Email">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="656" parent="567" name="Password">
+    <column id="654" parent="567" name="Password">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>VARCHAR|0s</StoredType>
     </column>
-    <column id="657" parent="567" name="CNP">
+    <column id="655" parent="567" name="CNP">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>VARCHAR(13)|0s</StoredType>
     </column>
-    <index id="658" parent="567" name="sqlite_autoindex_User_1">
+    <index id="656" parent="567" name="sqlite_autoindex_User_1">
       <ColNames>Email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="659" parent="567" name="sqlite_autoindex_User_2">
+    <index id="657" parent="567" name="sqlite_autoindex_User_2">
       <ColNames>CNP</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="660" parent="567">
+    <key id="658" parent="567">
       <ColNames>UserID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="661" parent="567">
+    <key id="659" parent="567">
       <ColNames>Email</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_User_1</UnderlyingIndexName>
     </key>
-    <key id="662" parent="567">
+    <key id="660" parent="567">
       <ColNames>CNP</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_User_2</UnderlyingIndexName>
     </key>
-    <column id="663" parent="568" name="type">
+    <column id="661" parent="568" name="type">
       <Position>1</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="664" parent="568" name="name">
+    <column id="662" parent="568" name="name">
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="665" parent="568" name="tbl_name">
+    <column id="663" parent="568" name="tbl_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="666" parent="568" name="rootpage">
+    <column id="664" parent="568" name="rootpage">
       <Position>4</Position>
       <StoredType>INT|0s</StoredType>
     </column>
-    <column id="667" parent="568" name="sql">
+    <column id="665" parent="568" name="sql">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>

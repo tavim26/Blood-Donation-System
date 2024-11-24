@@ -81,3 +81,18 @@ def create_schedule_controller(app):
 
         return redirect(url_for('assistant_dashboard'))
 
+
+
+    @app.route("/delete/schedule/<int:id>")
+    def delete_schedule(id):
+        schedule = Schedule.query.get_or_404(id)
+
+        try:
+            db.session.delete(schedule)
+            db.session.commit()
+            flash('Schedule deleted successfully.', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error: {str(e)}', 'danger')
+
+        return redirect(url_for('donor_dashboard'))

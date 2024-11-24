@@ -133,7 +133,6 @@
         <thead>
             <tr>
                 <th>Donor Name</th>
-                <th>Assistant Name</th>
                 <th>Blood Group</th>
                 <th>Quantity</th>
                 <th>Donation Date</th>
@@ -145,8 +144,7 @@
         <tbody>
             {% for donation in donations %}
             <tr>
-                <td>{{ donation.donor.FirstName }} {{ donation.donor.LastName }}</td>
-                <td>{{ donation.assistant.FirstName }} {{ donation.assistant.LastName if donation.assistant else 'N/A' }}</td>
+                <td>{{ donation.schedule.donor.user.FirstName }} {{ donation.schedule.donor.user.LastName }}</td>
                 <td>{{ donation.BloodGroup }}</td>
                 <td>{{ donation.Quantity }}</td>
                 <td>{{ donation.DonationDate }}</td>

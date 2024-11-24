@@ -11,10 +11,6 @@ from models.admin import Admin
 
 def create_admin_controllers(app):
 
-
-
-
-
     @app.route('/admin_dashboard')
     def admin_dashboard():
         admin_id = session.get('user_id')

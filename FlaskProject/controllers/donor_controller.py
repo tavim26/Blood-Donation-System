@@ -33,8 +33,9 @@ def create_donor_controllers(app):
         print(f"DonorID: {donor.DonorID}")
 
         # Folosim DonorID pentru a obține informațiile donorului
-        donations = Donation.query.filter_by(DonorID=donor.DonorID).all()
+
         schedules = Schedule.query.filter_by(DonorID=donor.DonorID).all()
+        donations = db.session.query(Donation).join(Schedule).filter(Schedule.DonorID == donor.DonorID).all()
         eligibility_forms = EligibilityForm.query.filter_by(DonorID=donor.DonorID).all()
         notifications = Notification.query.filter_by(DonorID=donor.DonorID).all()
         rewards = Reward.query.filter_by(DonorID=donor.DonorID).all()
