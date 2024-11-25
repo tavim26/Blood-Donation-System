@@ -1,4 +1,12 @@
-from flask import request, render_template, redirect, url_for, session, flash
+from io import BytesIO
+
+from flask import request, render_template, redirect, url_for, session, flash, send_file, abort
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Table, TableStyle
+
 from models.donor import Donor
 from models.eligibility_form import EligibilityForm, db
 from models.schedule import Schedule
@@ -91,3 +99,69 @@ def create_formular_controller(app):
             flash(f'Error: {str(e)}', 'danger')
 
         return redirect(url_for('donor_dashboard'))
+
+
+
+
+    @app.route('/form/download/<int:form_id>', methods=['GET'])
+    def download_eligibility_form(form_id):
+        # Găsirea formularului de eligibilitate
+        form = EligibilityForm.query.get_or_404(form_id)
+        donor = Donor.query.get_or_404(form.DonorID)
+
+        if not donor or not donor.user:
+            abort(404, description="Donor or User not found")
+
+        user = donor.user
+        donor_full_name = f"{user.FirstName} {user.LastName}"
+
+        # Generarea PDF-ului
+        buffer = BytesIO()
+
+        # Asigurându-ne că biblioteca reportlab este corect importată și disponibilă
+        try:
+            pdf = canvas.Canvas(buffer, pagesize=letter)
+        except AttributeError as e:
+            error_message = "Eroare: Nu am putut inițializa `canvas`. Verifică importurile."
+            print(error_message)
+            abort(500, description=error_message)
+
+        # Structurarea datelor în tabel
+        data = [
+            ['Field', 'Value'],
+            ['Form ID', form.FormID],
+            ['Donor Name', donor_full_name],
+            ['Form Name', form.FormName],
+            ['Blood Group', form.BloodGroup],
+            ['Age', form.Age],
+            ['Gender', form.Gender],
+            ['Weight', form.Weight],
+            ['Is Eligible', 'Yes' if form.IsEligible else 'No'],
+            ['Notes', form.Notes]
+        ]
+
+        # Crearea tabelului
+        table = Table(data, colWidths=[2 * inch, 4 * inch])
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+
+        # Adăugarea tabelului în PDF
+        table.wrapOn(pdf, 0, 0)
+        table.drawOn(pdf, inch, 600)
+
+        # Finalizarea documentului PDF
+        pdf.showPage()
+        pdf.save()
+
+        # Mutarea conținutului buffer-ului înapoi la începutul său
+        buffer.seek(0)
+
+        return send_file(buffer, as_attachment=True, download_name='eligibility_form.pdf', mimetype='application/pdf')

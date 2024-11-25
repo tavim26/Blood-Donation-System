@@ -52,6 +52,8 @@ def create_schedule_controller(app):
 
 
 
+
+
     @app.route("/confirm/schedule/<int:id>")
     def confirm_schedule(id):
         schedule = Schedule.query.get_or_404(id)
@@ -83,6 +85,7 @@ def create_schedule_controller(app):
 
 
 
+
     @app.route("/delete/schedule/<int:id>")
     def delete_schedule(id):
         schedule = Schedule.query.get_or_404(id)
@@ -96,3 +99,42 @@ def create_schedule_controller(app):
             flash(f'Error: {str(e)}', 'danger')
 
         return redirect(url_for('donor_dashboard'))
+
+
+
+
+    @app.route("/update/schedule/<int:schedule_id>", methods=["GET", "POST"])
+    def update_schedule(schedule_id: int):
+        schedule = Schedule.query.get_or_404(schedule_id)  # Obțineți programul sau returnați 404 dacă nu există
+
+        if request.method == "POST":
+            try:
+                # Preia datele din formular
+                appointment_date_str = request.form['appointment_date']
+                form_id = int(request.form['form_id'])
+
+                # Convertim data într-un format datetime fără secunde
+                appointment_date = datetime.strptime(appointment_date_str, "%Y-%m-%dT%H:%M")
+
+                # Actualizăm obiectul Schedule existent
+                schedule.AppointmentDate = appointment_date
+                schedule.FormID = form_id
+
+                # Comitem modificările în baza de date
+                db.session.commit()
+
+                flash('Schedule updated successfully!', 'success')
+                return redirect(url_for(
+                    'donor_dashboard'))  # Redirecționăm către o pagină corespunzătoare (ex: dashboard-ul programelor)
+
+            except Exception as e:
+                print(str(e))  # Este bine să afișezi eroarea pentru debug
+                db.session.rollback()
+                flash('An error occurred while updating the schedule.', 'error')
+                return redirect(request.url)  # Asigurăm returnarea unei răspuns valide în caz de eroare
+
+        else:
+            # Obținem formularele de eligibilitate ale donor-ului
+            eligibility_forms = EligibilityForm.query.filter_by(DonorID=schedule.DonorID).all()
+
+            return render_template('donor/schedule_update.html', schedule=schedule, eligibility_forms=eligibility_forms)

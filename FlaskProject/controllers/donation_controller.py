@@ -123,3 +123,37 @@ def create_donation_controller(app):
         else:
             flash('Please use the form to return a donation.', 'info')
             return redirect(url_for('assistant_dashboard'))
+
+
+
+
+
+    @app.route('/delete/donation/<int:donation_id>', methods=['GET'])
+    def delete_donation(donation_id):
+        # Găsirea donației
+        donation = Donation.query.get_or_404(donation_id)
+
+        # Obținerea informațiilor din donație
+        blood_group = donation.BloodGroup
+        quantity = donation.Quantity
+
+        try:
+            # Ștergerea donației
+            db.session.delete(donation)
+
+            # Actualizarea cantității din stocul total
+            blood_stock = BloodStock.query.filter_by(BloodGroup=blood_group).first()
+            if blood_stock:
+                blood_stock.QuantityInStock = max(blood_stock.QuantityInStock - quantity,
+                                                  0)  # Asigură-te că nu scade sub 0
+
+            # Confirmarea modificărilor
+            db.session.commit()
+            flash('Donation deleted and stock updated successfully!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error deleting donation: {str(e)}', 'danger')
+
+        # Redirecționare către pagina principală sau o altă pagină specifică
+        return redirect(
+            url_for('admin_dashboard'))

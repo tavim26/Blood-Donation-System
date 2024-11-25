@@ -16,7 +16,7 @@
     <select class="form-control" id="donation_id" name="donation_id" required>
         <option value="">Select Donation</option>
         {% for donation in donations %}
-        <option value="{{ donation.DonationID }}">{{ donation.donor.FirstName }} {{ donation.donor.LastName }}</option>
+        <option value="{{ donation.DonationID }}">{{ donation.schedule.donor.user.FirstName }} {{ donation.schedule.donor.user.LastName }}</option>
         {% endfor %}
     </select>
 </div>

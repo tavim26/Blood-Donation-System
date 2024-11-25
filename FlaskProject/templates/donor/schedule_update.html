@@ -1,0 +1,29 @@
+{% extends "update_base.html" %}
+
+{% block title %}
+Edit Schedule
+{% endblock %}
+
+{% block header %}
+Edit Schedule for Donor
+{% endblock %}
+
+{% block form_action %}
+    /update/schedule/{{ schedule.ScheduleID }}
+{% endblock %}
+
+{% block form_content %}
+<div class="form-group">
+    <label for="appointment_date">Appointment Date</label>
+    <input type="datetime-local" id="appointment_date" name="appointment_date" class="form-control" value="{{ schedule.AppointmentDate.strftime('%Y-%m-%dT%H:%M') }}" required>
+</div>
+
+<div class="form-group">
+    <label for="form_id">Select Form</label>
+    <select id="form_id" name="form_id" class="form-control" required>
+        {% for form in eligibility_forms %}
+        <option value="{{ form.FormID }}" {% if form.FormID == schedule.FormID %}selected{% endif %}>Form {{ form.FormID }} - {{ form.FormName }}</option>
+        {% endfor %}
+    </select>
+</div>
+{% endblock %}

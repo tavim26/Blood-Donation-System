@@ -9,6 +9,8 @@ from models.user import User, db
 from models.donor import Donor
 
 def create_donor_controllers(app):
+
+
     @app.route('/donor_dashboard')
     def donor_dashboard():
         user_id = session.get('user_id')
@@ -50,6 +52,10 @@ def create_donor_controllers(app):
             notifications=notifications,
             rewards=rewards
         )
+
+
+
+
 
     @app.route('/create_donor', methods=['POST'])
     def create_donor():

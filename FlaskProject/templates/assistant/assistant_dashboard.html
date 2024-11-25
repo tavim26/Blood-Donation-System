@@ -60,6 +60,8 @@
                 <td>{{ donation.Status }}</td>
                 <td>{{ donation.Notes }}</td>
                 <td>
+
+                    {% if donation.Status == 'pending' %}
                     <form action="/complete/donation/{{ donation.DonationID }}" method="post" style="display:inline;">
                         <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer;">
                             Complete Donation
@@ -71,6 +73,8 @@
                             Return Donation
                         </button>
                     </form>
+
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

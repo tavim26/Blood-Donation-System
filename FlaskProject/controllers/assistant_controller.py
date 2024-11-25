@@ -36,6 +36,8 @@ def create_assistant_controllers(app):
             donors=donors
         )
 
+
+
     # Ruta pentru crearea unui Assistant
     @app.route('/create_assistant', methods=['POST'])
     def create_assistant():
@@ -58,6 +60,9 @@ def create_assistant_controllers(app):
 
         # Redirect către pagina de login
         return redirect(url_for('login'))
+
+
+
 
     @app.route('/add/assistant', methods=['POST', 'GET'])
     def add_assistant():
@@ -101,6 +106,10 @@ def create_assistant_controllers(app):
             return redirect(url_for('admin_dashboard'))
         except Exception as e:
             return str(e)
+
+
+
+
 
     @app.route("/update/assistant/<int:id>", methods=['GET', 'POST'])
     def updateAssistant(id: int):

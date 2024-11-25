@@ -22,17 +22,7 @@
 
     <div class="form-group">
         <label for="blood_group">Blood Group</label>
-        <select class="form-control" id="blood_group" name="blood_group" required>
-            <option value="" disabled selected>Select your blood group</option>
-            <option value="A+" {% if donor.BloodGroup == 'A+' %}selected{% endif %}>A+</option>
-            <option value="A-" {% if donor.BloodGroup == 'A-' %}selected{% endif %}>A-</option>
-            <option value="B+" {% if donor.BloodGroup == 'B+' %}selected{% endif %}>B+</option>
-            <option value="B-" {% if donor.BloodGroup == 'B-' %}selected{% endif %}>B-</option>
-            <option value="AB+" {% if donor.BloodGroup == 'AB+' %}selected{% endif %}>AB+</option>
-            <option value="AB-" {% if donor.BloodGroup == 'AB-' %}selected{% endif %}>AB-</option>
-            <option value="O+" {% if donor.BloodGroup == 'O+' %}selected{% endif %}>O+</option>
-            <option value="O-" {% if donor.BloodGroup == 'O-' %}selected{% endif %}>O-</option>
-        </select>
+        <input type="text" class="form-control" id="blood_group" name="blood_group" value="{{ donor.BloodGroup }}" readonly>
     </div>
 
     <div class="form-group">
@@ -42,12 +32,7 @@
 
     <div class="form-group">
         <label for="gender">Gender</label>
-        <select class="form-control" id="gender" name="gender" required>
-            <option value="" disabled selected>Select Gender</option>
-            <option value="Male" {% if donor.Gender == 'Male' %}selected{% endif %}>Male</option>
-            <option value="Female" {% if donor.Gender == 'Female' %}selected{% endif %}>Female</option>
-            <option value="Other" {% if donor.Gender == 'Other' %}selected{% endif %}>Other</option>
-        </select>
+        <input type="text" class="form-control" id="gender" name="gender" value="{{ donor.Gender }}" readonly>
     </div>
 
     <div class="form-group">
