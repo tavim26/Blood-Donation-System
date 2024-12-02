@@ -1,0 +1,108 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Untitled",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAFF+qBtyKM79qY=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Main",
+					"defaultDiagram": true
+				}
+			]
+		},
+		{
+			"_type": "UMLCollaboration",
+			"_id": "AAAAAAGTZ09MV/1W/UU=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Collaboration1",
+			"ownedElements": [
+				{
+					"_type": "UMLInteraction",
+					"_id": "AAAAAAGTZ09MV/1X2QI=",
+					"_parent": {
+						"$ref": "AAAAAAGTZ09MV/1W/UU="
+					},
+					"name": "Interaction1",
+					"ownedElements": [
+						{
+							"_type": "UMLSequenceDiagram",
+							"_id": "AAAAAAGTZ09MV/1YAg4=",
+							"_parent": {
+								"$ref": "AAAAAAGTZ09MV/1X2QI="
+							},
+							"name": "SequenceDiagram1",
+							"ownedViews": [
+								{
+									"_type": "UMLFrameView",
+									"_id": "AAAAAAGTZ09MV/1Zxpc=",
+									"_parent": {
+										"$ref": "AAAAAAGTZ09MV/1YAg4="
+									},
+									"model": {
+										"$ref": "AAAAAAGTZ09MV/1YAg4="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGTZ09MWP1a+Rw=",
+											"_parent": {
+												"$ref": "AAAAAAGTZ09MV/1Zxpc="
+											},
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 72.72998046875,
+											"top": 29,
+											"width": 114.9052734375,
+											"height": 13,
+											"text": "SequenceDiagram1"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGTZ09MWP1bt8o=",
+											"_parent": {
+												"$ref": "AAAAAAGTZ09MV/1Zxpc="
+											},
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 53,
+											"top": 29,
+											"width": 13.72998046875,
+											"height": 13,
+											"text": "sd"
+										}
+									],
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 48,
+									"top": 24,
+									"width": 928,
+									"height": 816,
+									"nameLabel": {
+										"$ref": "AAAAAAGTZ09MWP1a+Rw="
+									},
+									"frameTypeLabel": {
+										"$ref": "AAAAAAGTZ09MWP1bt8o="
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

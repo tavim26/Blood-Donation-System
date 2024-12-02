@@ -1,4 +1,4 @@
-from flask import request, redirect, render_template, url_for
+from flask import request, redirect, render_template, url_for, session
 
 from models.assistant import Assistant, db
 from models.donation import Donation
@@ -29,7 +29,7 @@ def create_report_controller(app):
             db.session.add(new_report)
             db.session.commit()
 
-            return redirect(url_for('assistant_dashboard'))
+            return redirect(url_for('assistant_dashboard',id=session.get('user_id')))
 
         donations = Donation.query.all()  # Preluăm toate donațiile
         return render_template('assistant/report_create.html', assistant=assistant, donations=donations)

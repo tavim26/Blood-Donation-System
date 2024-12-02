@@ -1,5 +1,4 @@
-from sqlalchemy import func
-from database import db
+from extensions import db
 
 
 class Authentication(db.Model):

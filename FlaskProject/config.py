@@ -1,5 +1,6 @@
 import os
 
+
 class Config:
     BASEDIR = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///C:/Users/tavim/Desktop/Projects/Blood-Donation-System/FlaskProject/database.sqlite'

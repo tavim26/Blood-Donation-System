@@ -32,7 +32,10 @@
         <input type="text" class="form-control" id="cnp" name="cnp" value="{{ admin.CNP }}" readonly>
     </div>
 
-        <a href="/logout" class="btn btn-secondary">Log Out</a>
+    <a href="{{ url_for('logout', id=session['user_id']) }}" class="btn btn-secondary">Log Out</a>
+
+
+
     </form>
 
 
@@ -50,7 +53,7 @@
 
         <h2>Donors</h2>
 
-        <a href = "/add/donor" class="btn btn-primary" >Add Donor</a>
+        <a href="{{ url_for('add_donor', admin_id=admin.id) }}" class="btn btn-primary">Add Donor</a>
 
         <table class="table table-striped">
             <thead>
@@ -92,7 +95,8 @@
     <div class="container mt-5" id="assistantTable">
 
         <h2>Assistants</h2>
-        <a href = "/add/assistant" class="btn btn-primary" >Add Assistant</a>
+      <a href="{{ url_for('add_assistant') }}" class="btn btn-primary">Add Assistant</a>
+
 
         <table class="table table-striped">
             <thead>
@@ -178,7 +182,7 @@
         <tbody>
             {% for report in reports %}
             <tr>
-                <td>{{ donation.assistant.FirstName }} {{ donation.assistant.LastName if donation.assistant else 'N/A' }}</td>
+                <td>{{ report.assistant.user.FirstName }} {{ report.assistant.user.LastName }}</td>
                 <td>{{ report.ReportType }}</td>
                 <td>{{ report.ReportData }}</td>
 

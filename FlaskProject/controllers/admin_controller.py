@@ -1,22 +1,28 @@
 from flask import request, render_template, redirect, url_for, session, flash
+
+from models.authentication import Authentication
 from models.blood_stock import BloodStock
 from models.report import Report
 from models.schedule import Schedule
-from models.user import User, db
+from models.user import User
+from extensions import db
 from models.assistant import Assistant
 from models.activity_log import ActivityLog
 from models.donation import Donation
 from models.donor import Donor
 from models.admin import Admin
 
+
 def create_admin_controllers(app):
 
-    @app.route('/admin_dashboard')
-    def admin_dashboard():
-        admin_id = session.get('user_id')
-        admin = User.query.get(admin_id)
 
-        # Obținem toți donatorii cu informațiile relevante
+    @app.route('/admin_dashboard/<int:id>')
+    def admin_dashboard(id: int):
+        admin = User.query.get(id)
+        if not admin:
+            flash('Admin user not found.', 'error')
+            return redirect(url_for('login'))
+
         donors = (
             db.session.query(
                 Donor.DonorID,
@@ -33,7 +39,6 @@ def create_admin_controllers(app):
             .all()
         )
 
-        # Obținem toți asistenții cu informațiile relevante
         assistants = (
             db.session.query(
                 Assistant.AssistantID,
@@ -65,7 +70,6 @@ def create_admin_controllers(app):
             blood_stocks=blood_stocks,
             reports=reports,
             schedules=schedules
-
         )
 
     @app.route('/create_admin', methods=['POST'])
@@ -87,7 +91,13 @@ def create_admin_controllers(app):
         db.session.add(admin)
         db.session.commit()
 
+        # Creăm o intrare în tabela Authentication
+        new_auth = Authentication(user_id=new_user.UserID, token=False)
+        db.session.add(new_auth)
+        db.session.commit()
+
         return redirect(url_for('login'))
+
 
 
 

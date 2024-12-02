@@ -1,5 +1,5 @@
-from flask import request, redirect, render_template, url_for, flash
-from database import db
+from flask import request, redirect, render_template, url_for, flash, session
+from extensions import db
 from models.schedule import Schedule
 from models.donor import Donor
 from models.eligibility_form import EligibilityForm  # Asigură-te că importarea este corectă
@@ -7,7 +7,6 @@ from datetime import datetime
 
 
 def create_schedule_controller(app):
-
 
     @app.route("/create/schedule/<int:id>", methods=["GET", "POST"])
     def create_schedule(id: int):
@@ -36,7 +35,8 @@ def create_schedule_controller(app):
                 db.session.commit()
 
                 flash('Schedule created successfully!', 'success')
-                return redirect(url_for('donor_dashboard'))  # Redirecționăm către dashboard-ul donor-ului
+                # Redirecționăm către dashboard-ul donor-ului folosind ID-ul din sesiune
+                return redirect(url_for('donor_dashboard', id=session.get('user_id')))
 
             except Exception as e:
                 print(str(e))  # Este bine să afișezi eroarea pentru debug
@@ -51,9 +51,6 @@ def create_schedule_controller(app):
             return render_template('donor/schedule_create.html', donor=donor, eligibility_forms=eligibility_forms)
 
 
-
-
-
     @app.route("/confirm/schedule/<int:id>")
     def confirm_schedule(id):
         schedule = Schedule.query.get_or_404(id)
@@ -65,9 +62,8 @@ def create_schedule_controller(app):
             db.session.rollback()
             flash(f'Error: {str(e)}', 'danger')
 
-        return redirect(url_for('assistant_dashboard'))
-
-
+        # Redirecționăm la dashboard-ul asistentului folosind ID-ul din sesiune
+        return redirect(url_for('assistant_dashboard', id=session.get('user_id')))
 
 
     @app.route("/cancel/schedule/<int:id>")
@@ -81,9 +77,8 @@ def create_schedule_controller(app):
             db.session.rollback()
             flash(f'Error: {str(e)}', 'danger')
 
-        return redirect(url_for('assistant_dashboard'))
-
-
+        # Redirecționăm la dashboard-ul asistentului folosind ID-ul din sesiune
+        return redirect(url_for('assistant_dashboard', id=session.get('user_id')))
 
 
     @app.route("/delete/schedule/<int:id>")
@@ -98,9 +93,8 @@ def create_schedule_controller(app):
             db.session.rollback()
             flash(f'Error: {str(e)}', 'danger')
 
-        return redirect(url_for('donor_dashboard'))
-
-
+        # Redirecționăm la dashboard-ul donor-ului folosind ID-ul din sesiune
+        return redirect(url_for('donor_dashboard', id=session.get('user_id')))
 
 
     @app.route("/update/schedule/<int:schedule_id>", methods=["GET", "POST"])
@@ -124,8 +118,8 @@ def create_schedule_controller(app):
                 db.session.commit()
 
                 flash('Schedule updated successfully!', 'success')
-                return redirect(url_for(
-                    'donor_dashboard'))  # Redirecționăm către o pagină corespunzătoare (ex: dashboard-ul programelor)
+                # Redirecționăm către dashboard-ul donor-ului folosind ID-ul din sesiune
+                return redirect(url_for('donor_dashboard', id=session.get('user_id')))
 
             except Exception as e:
                 print(str(e))  # Este bine să afișezi eroarea pentru debug

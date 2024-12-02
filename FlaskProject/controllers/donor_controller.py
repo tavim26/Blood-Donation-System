@@ -1,40 +1,30 @@
 from flask import request, render_template, redirect, url_for, flash, session
 
+from models.authentication import Authentication
 from models.donation import Donation
 from models.eligibility_form import EligibilityForm
 from models.notification import Notification
 from models.reward import Reward
 from models.schedule import Schedule
-from models.user import User, db
+from models.user import User
 from models.donor import Donor
+from extensions import db
+
 
 def create_donor_controllers(app):
 
-
-    @app.route('/donor_dashboard')
-    def donor_dashboard():
-        user_id = session.get('user_id')
-        if user_id is None:
-            flash('Please log in to access the dashboard.', 'error')
-            return redirect(url_for('login'))
-
-        # Obținem utilizatorul asociat user_id
-        user = User.query.get(user_id)
+    @app.route('/donor_dashboard/<int:id>')
+    def donor_dashboard(id: int):
+        user = User.query.get(id)
 
         if not user:
             flash('User not found.', 'error')
             return redirect(url_for('login'))
 
-        # Obținem donor-ul folosind user_id
-        donor = Donor.query.filter_by(UserID=user_id).first()
+        donor = Donor.query.filter_by(UserID=id).first()
         if not donor:
             flash('Donor not found.', 'error')
             return redirect(url_for('login'))
-
-        # Debug pentru verificare DonorID
-        print(f"DonorID: {donor.DonorID}")
-
-        # Folosim DonorID pentru a obține informațiile donorului
 
         schedules = Schedule.query.filter_by(DonorID=donor.DonorID).all()
         donations = db.session.query(Donation).join(Schedule).filter(Schedule.DonorID == donor.DonorID).all()
@@ -55,8 +45,6 @@ def create_donor_controllers(app):
 
 
 
-
-
     @app.route('/create_donor', methods=['POST'])
     def create_donor():
         first_name = request.form.get('first_name')
@@ -68,17 +56,29 @@ def create_donor_controllers(app):
         age = request.form.get('age')
         gender = request.form.get('gender')
 
+        try:
+            # Creăm un utilizator nou
+            new_user = User(first_name, last_name, email, password, cnp, 'donor')
+            db.session.add(new_user)
+            db.session.commit()
+            print(f"Created user with ID: {new_user.UserID}")
 
-        # Creăm un utilizator nou
-        new_user = User(first_name, last_name, email, password, cnp, 'donor')
-        db.session.add(new_user)
-        db.session.commit()
+            # Creăm un donor
+            donor_id = new_user.UserID
+            donor = Donor(donor_id=donor_id, blood_group=blood_group, age=age, gender=gender)
+            db.session.add(donor)
+            db.session.commit()
+            print("Created donor.")
 
-        # Creăm un donor
-        donor_id = new_user.UserID
-        donor = Donor(donor_id=donor_id, blood_group=blood_group, age=age, gender=gender)
-        db.session.add(donor)
-        db.session.commit()
+            # Creăm o intrare în tabela Authentication
+            new_auth = Authentication(user_id=new_user.UserID, token=False)
+            db.session.add(new_auth)
+            db.session.commit()
+            print("Created authentication.")
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error: {e}")
 
         # Redirect către pagina de login
         return redirect(url_for('login'))
@@ -86,8 +86,10 @@ def create_donor_controllers(app):
 
 
 
-    @app.route('/add/donor', methods=['POST','GET'])
+    @app.route('/add/donor', methods=['POST', 'GET'])
     def add_donor():
+
+        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
 
         if request.method == 'POST':
             first_name = request.form['first_name']
@@ -99,53 +101,67 @@ def create_donor_controllers(app):
             age = request.form['age']
             gender = request.form['gender']
 
-            # Creăm un utilizator nou
-            new_user = User(first_name, last_name, email, password, cnp, 'donor')
-            db.session.add(new_user)
-            db.session.commit()
-
-            # Creăm un donor
-            donor_id = new_user.UserID
-            donor = Donor(donor_id=donor_id, blood_group=blood_group, age=age, gender=gender)
-
             try:
+                # Creăm un utilizator nou
+                new_user = User(first_name, last_name, email, password, cnp, 'donor')
+                db.session.add(new_user)
+                db.session.commit()
+                print(f"Created user with ID: {new_user.UserID}")
+
+                # Creăm un donor
+                donor_id = new_user.UserID
+                donor = Donor(donor_id=donor_id, blood_group=blood_group, age=age, gender=gender)
                 db.session.add(donor)
                 db.session.commit()
-                return redirect(url_for('admin_dashboard'))
+                print("Created donor.")
+
+                # Creăm o intrare în tabela Authentication
+                new_auth = Authentication(user_id=new_user.UserID, token=False)
+                db.session.add(new_auth)
+                db.session.commit()
+                print("Created authentication.")
+
+                return redirect(url_for('admin_dashboard', id=admin_id))
 
             except Exception as e:
+                db.session.rollback()
                 return str(e)
 
         return render_template('admin/donor_create.html')
 
-
-
-
-        # delete a donor
     @app.route("/delete/donor/<int:id>")
     def deleteDonor(id: int):
+        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+
         delete_donor = Donor.query.get_or_404(id)
 
         try:
-            # Obținem referința utilizatorului asociat
             user_to_delete = User.query.get(delete_donor.UserID)
-            # Ștergem utilizatorul
+            print(f"Deleting user with ID: {user_to_delete.UserID}")
+
+            # Verifică că folosești câmpul corect, înlocuind 'user_id' cu 'UserID'
+            auth_to_delete = Authentication.query.filter_by(UserID=user_to_delete.UserID).first()
+            if auth_to_delete:
+                db.session.delete(auth_to_delete)
+                print(f"Deleted authentication with ID: {auth_to_delete.AuthID}")
+
             db.session.delete(user_to_delete)
-            # Ștergem donatorul
             db.session.delete(delete_donor)
             db.session.commit()
-            return redirect(url_for('admin_dashboard'))
+            print("Deleted user and donor.")
 
+            return redirect(url_for('admin_dashboard', id=admin_id))
         except Exception as e:
+            db.session.rollback()
+            print(f"Error: {e}")
             return str(e)
-
-
-
 
     @app.route("/update/donor/<int:id>", methods=['GET', 'POST'])
     def updateDonor(id: int):
         # Căutăm Donor-ul după ID
         edit_donor = Donor.query.get_or_404(id)
+
+        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
 
         # Căutăm User-ul asociat Donor-ului
         edit_user = User.query.get_or_404(edit_donor.UserID)
@@ -165,7 +181,7 @@ def create_donor_controllers(app):
 
             try:
                 db.session.commit()
-                return redirect(url_for('admin_dashboard'))
+                return redirect(url_for('admin_dashboard',id=admin_id))
             except Exception as e:
                 return str(e)
         else:
