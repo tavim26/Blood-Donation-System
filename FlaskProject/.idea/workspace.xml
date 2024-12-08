@@ -5,42 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c17c8d79-0692-4bcb-a8b2-e1a5c5f8f88e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/create_app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extensions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/403361b2-7e27-4953-9fa3-ecd43b0abc73.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/403361b2-7e27-4953-9fa3-ecd43b0abc73.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/assistant_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/assistant_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/donation_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/donation_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/donor_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/donor_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/formular_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/formular_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/report_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/report_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/schedule_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/schedule_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/user_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/user_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/activity_log.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/activity_log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/assistant.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/assistant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/blood_stock.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/blood_stock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/donation.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/donation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/donor.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/donor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/eligibility_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/eligibility_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/notification.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/notification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/report.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/report.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/reward.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/reward.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/schedule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/admin_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/admin_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/assistant_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/assistant_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/assistant/assistant_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/assistant/assistant_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/assistant/form_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/assistant/form_view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/create_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/create_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/donor/donor_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/donor/donor_dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,6 +140,8 @@
       <workItem from="1732733857601" duration="311000" />
       <workItem from="1732734631458" duration="1520000" />
       <workItem from="1732776755945" duration="12152000" />
+      <workItem from="1733326347518" duration="78000" />
+      <workItem from="1733338807472" duration="259000" />
     </task>
     <servers />
   </component>
@@ -194,6 +161,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FlaskProject$create_db.coverage" NAME="create_db Coverage Results" MODIFIED="1729614756268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FlaskProject$FlaskProject.coverage" NAME="FlaskProject Coverage Results" MODIFIED="1732788841695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FlaskProject$FlaskProject.coverage" NAME="FlaskProject Coverage Results" MODIFIED="1733326350801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
