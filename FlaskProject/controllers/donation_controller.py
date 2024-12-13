@@ -14,16 +14,13 @@ def create_donation_controller(app):
         donor_id = session.get('user_id')
 
         try:
-            # Obține schedule, donor și eligibility_form într-un singur bloc
             schedule = Schedule.query.filter_by(ScheduleID=schedule_id).first_or_404()
             donor = Donor.query.filter_by(DonorID=schedule.DonorID).first_or_404()
             eligibility_form = EligibilityForm.query.filter_by(FormID=schedule.FormID).first_or_404()
 
-            # Calculăm cantitatea pe baza greutății
             weight = eligibility_form.Weight
             quantity = random.randint(350, 450) if weight > 50 else random.randint(250, 350)
 
-            # Creăm o nouă donație
             new_donation = Donation(
                 ScheduleID=schedule.ScheduleID,
                 BloodGroup=eligibility_form.BloodGroup,
@@ -54,7 +51,6 @@ def create_donation_controller(app):
         assistant_id = session.get('user_id')
 
         if request.method == 'POST':
-            # Actualizăm statusul donației și stocul de sânge
             donation.Status = 'completed'
             blood_stock = BloodStock.query.filter_by(BloodGroup=donation.BloodGroup).first()
 
@@ -85,7 +81,6 @@ def create_donation_controller(app):
         assistant_id = session.get('user_id')
 
         if request.method == 'POST':
-            # Actualizăm statusul donației
             donation.Status = 'returned'
             try:
                 db.session.commit()

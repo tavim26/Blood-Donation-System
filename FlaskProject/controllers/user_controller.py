@@ -14,7 +14,7 @@ def create_user_controllers(app):
             user = User.query.filter_by(Email=email).first()
 
             if user and user.Password == password:
-                session['user_id'] = user.UserID  # Stocăm user_id în sesiune
+                session['user_id'] = user.UserID
                 session['role'] = user.Role
 
 
@@ -42,11 +42,11 @@ def create_user_controllers(app):
                 auth = Authentication.query.filter_by(UserID=user.UserID).first()
                 if auth:
                     auth.token = False
-                    db.session.commit()  # Setează token-ul la False
+                    db.session.commit()
 
-            session.clear()  # Șterge toate datele din sesiune
+            session.clear()
 
-        return redirect(url_for('login'))  # Redirecționează către pagina de login
+        return redirect(url_for('login'))
 
 
 

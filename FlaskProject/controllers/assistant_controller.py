@@ -55,30 +55,26 @@ def create_assistant_controllers(app):
         password = request.form.get('password')
         cnp = request.form.get('cnp')
 
-        # Creăm un utilizator nou
         new_user = User(first_name, last_name, email, password, cnp, 'assistant')
         db.session.add(new_user)
         db.session.commit()
 
-        # Creăm un assistant
         assistant_id = new_user.UserID
         assistant = Assistant(assistant_id=assistant_id)
         db.session.add(assistant)
         db.session.commit()
 
-        # Creăm o intrare în tabela Authentication
         new_auth = Authentication(user_id=new_user.UserID, token=False)
         db.session.add(new_auth)
         db.session.commit()
 
-        # Redirect către pagina de login
         return redirect(url_for('login'))
 
 
 
     @app.route('/add/assistant', methods=['POST', 'GET'])
     def add_assistant():
-        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+        admin_id = session.get('user_id')
 
         if request.method == 'POST':
             first_name = request.form.get('first_name')
@@ -87,12 +83,12 @@ def create_assistant_controllers(app):
             password = request.form.get('password')
             cnp = request.form.get('cnp')
 
-            # Verificăm dacă toate câmpurile sunt completate
+
             if not all([first_name, last_name, email, password, cnp]) or admin_id is None:
                 flash('Please fill all the fields.', 'error')
                 return redirect(url_for('add_assistant', admin_id=admin_id))
 
-            # Creăm un utilizator și un asistent
+
             new_user = User(first_name, last_name, email, password, cnp, 'assistant')
             db.session.add(new_user)
             db.session.commit()
@@ -127,7 +123,7 @@ def create_assistant_controllers(app):
     def delete_assistant(id: int):
         del_assistant = Assistant.query.get_or_404(id)
 
-        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+        admin_id = session.get('user_id')
 
         try:
             user_to_delete = User.query.get(del_assistant.UserID)
@@ -153,12 +149,12 @@ def create_assistant_controllers(app):
 
 
     @app.route("/update/assistant/<int:id>", methods=['GET', 'POST'])
-    def updateAssistant(id: int):
+    def update_assistant(id: int):
 
         edit_assistant = Assistant.query.get_or_404(id)
         edit_user = User.query.get_or_404(edit_assistant.UserID)
 
-        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+        admin_id = session.get('user_id')
 
         if request.method == "POST":
 

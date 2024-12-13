@@ -57,30 +57,24 @@ def create_donor_controllers(app):
         gender = request.form.get('gender')
 
         try:
-            # Creăm un utilizator nou
             new_user = User(first_name, last_name, email, password, cnp, 'donor')
             db.session.add(new_user)
             db.session.commit()
-            print(f"Created user with ID: {new_user.UserID}")
 
-            # Creăm un donor
             donor_id = new_user.UserID
             donor = Donor(donor_id=donor_id, blood_group=blood_group, age=age, gender=gender)
             db.session.add(donor)
             db.session.commit()
-            print("Created donor.")
 
             # Creăm o intrare în tabela Authentication
             new_auth = Authentication(user_id=new_user.UserID, token=False)
             db.session.add(new_auth)
             db.session.commit()
-            print("Created authentication.")
 
         except Exception as e:
             db.session.rollback()
             print(f"Error: {e}")
 
-        # Redirect către pagina de login
         return redirect(url_for('login'))
 
 
@@ -89,7 +83,7 @@ def create_donor_controllers(app):
     @app.route('/add/donor', methods=['POST', 'GET'])
     def add_donor():
 
-        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+        admin_id = session.get('user_id')
 
         if request.method == 'POST':
             first_name = request.form['first_name']
@@ -102,24 +96,18 @@ def create_donor_controllers(app):
             gender = request.form['gender']
 
             try:
-                # Creăm un utilizator nou
                 new_user = User(first_name, last_name, email, password, cnp, 'donor')
                 db.session.add(new_user)
                 db.session.commit()
-                print(f"Created user with ID: {new_user.UserID}")
 
-                # Creăm un donor
                 donor_id = new_user.UserID
                 donor = Donor(donor_id=donor_id, blood_group=blood_group, age=age, gender=gender)
                 db.session.add(donor)
                 db.session.commit()
-                print("Created donor.")
 
-                # Creăm o intrare în tabela Authentication
                 new_auth = Authentication(user_id=new_user.UserID, token=False)
                 db.session.add(new_auth)
                 db.session.commit()
-                print("Created authentication.")
 
                 return redirect(url_for('admin_dashboard', id=admin_id))
 
@@ -131,24 +119,20 @@ def create_donor_controllers(app):
 
     @app.route("/delete/donor/<int:id>")
     def deleteDonor(id: int):
-        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+        admin_id = session.get('user_id')
 
         delete_donor = Donor.query.get_or_404(id)
 
         try:
             user_to_delete = User.query.get(delete_donor.UserID)
-            print(f"Deleting user with ID: {user_to_delete.UserID}")
 
-            # Verifică că folosești câmpul corect, înlocuind 'user_id' cu 'UserID'
             auth_to_delete = Authentication.query.filter_by(UserID=user_to_delete.UserID).first()
             if auth_to_delete:
                 db.session.delete(auth_to_delete)
-                print(f"Deleted authentication with ID: {auth_to_delete.AuthID}")
 
             db.session.delete(user_to_delete)
             db.session.delete(delete_donor)
             db.session.commit()
-            print("Deleted user and donor.")
 
             return redirect(url_for('admin_dashboard', id=admin_id))
         except Exception as e:
@@ -158,21 +142,18 @@ def create_donor_controllers(app):
 
     @app.route("/update/donor/<int:id>", methods=['GET', 'POST'])
     def updateDonor(id: int):
-        # Căutăm Donor-ul după ID
+
         edit_donor = Donor.query.get_or_404(id)
 
-        admin_id = session.get('user_id')  # Obținem admin_id din sesiune
+        admin_id = session.get('user_id')
 
-        # Căutăm User-ul asociat Donor-ului
         edit_user = User.query.get_or_404(edit_donor.UserID)
 
         if request.method == "POST":
-            # Actualizăm câmpurile din Donor
             edit_donor.Age = request.form['age']
             edit_donor.Gender = request.form['gender']
             edit_donor.BloodGroup = request.form['bloodgroup']
 
-            # Actualizăm câmpurile din User
             edit_user.FirstName = request.form['first_name']
             edit_user.LastName = request.form['last_name']
             edit_user.Email = request.form['email']
@@ -185,7 +166,6 @@ def create_donor_controllers(app):
             except Exception as e:
                 return str(e)
         else:
-            # Dacă este GET, trimitem atât Donor cât și User în template
             return render_template('admin/donor_update.html', donor=edit_donor, user=edit_user)
 
 

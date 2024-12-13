@@ -10,11 +10,9 @@ def create_report_controller(app):
 
     @app.route('/create/report/<int:assistant_id>', methods=['GET', 'POST'])
     def create_report(assistant_id):
-        # Căutăm asistentul curent
         assistant = Assistant.query.get_or_404(assistant_id)
 
         if request.method == 'POST':
-            # Preluăm datele din formular și salvăm reportul
             donation_id = request.form.get('donation_id')
             report_type = request.form.get('report_type')
             report_data = request.form.get('report_data')
@@ -31,5 +29,5 @@ def create_report_controller(app):
 
             return redirect(url_for('assistant_dashboard',id=session.get('user_id')))
 
-        donations = Donation.query.all()  # Preluăm toate donațiile
+        donations = Donation.query.all()
         return render_template('assistant/report_create.html', assistant=assistant, donations=donations)

@@ -14,8 +14,6 @@ from models.admin import Admin
 
 
 def create_admin_controllers(app):
-
-
     @app.route('/admin_dashboard/<int:id>')
     def admin_dashboard(id: int):
         admin = User.query.get(id)
@@ -80,28 +78,17 @@ def create_admin_controllers(app):
         password = request.form.get('password')
         cnp = request.form.get('cnp')
 
-        # Creăm un utilizator nou
         new_user = User(first_name, last_name, email, password, cnp, 'admin')
         db.session.add(new_user)
         db.session.commit()
 
-        # Creăm un admin
         admin_id = new_user.UserID
         admin = Admin(admin_id=admin_id)
         db.session.add(admin)
         db.session.commit()
 
-        # Creăm o intrare în tabela Authentication
         new_auth = Authentication(user_id=new_user.UserID, token=False)
         db.session.add(new_auth)
         db.session.commit()
 
         return redirect(url_for('login'))
-
-
-
-
-
-
-
-
