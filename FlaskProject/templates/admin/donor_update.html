@@ -1,8 +1,11 @@
 {% extends "update_base.html" %}
 
 {% block title %}Update Donor{% endblock %}
+
 {% block header %}Update Donor{% endblock %}
+
 {% block form_action %}/update/donor/{{ donor.DonorID }}{% endblock %}
+
 {% block form_content %}
     <!-- Input pentru First Name (din User) -->
     <label for="first_name">First Name</label>
@@ -19,10 +22,6 @@
     <input type="email" id="email" name="email" value="{{ user.Email }}" required>
     <br>
 
-    <!-- Input pentru Password (din User) -->
-    <label for="password">Password</label>
-    <input type="text" id="password" name="password" value="{{ user.Password }}" required>
-    <br>
 
     <!-- Input pentru CNP (din User) -->
     <label for="cnp">CNP</label>

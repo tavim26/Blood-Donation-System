@@ -1,10 +1,11 @@
 from flask import request, render_template, redirect, url_for, session, flash
-
 from models.authentication import Authentication
 from models.user import User, db
-
+from extensions import bcrypt
+from flask import jsonify
 
 def create_user_controllers(app):
+
     @app.route('/login', methods=['GET', 'POST'])
     def login():
         if request.method == 'POST':
@@ -13,26 +14,31 @@ def create_user_controllers(app):
 
             user = User.query.filter_by(Email=email).first()
 
-            if user and user.Password == password:
+            # Validare credențiale
+            if user and bcrypt.check_password_hash(user.Password, password):
                 session['user_id'] = user.UserID
                 session['role'] = user.Role
 
-
                 auth = Authentication.query.filter_by(UserID=user.UserID).first()
-                if auth:
-                    auth.token = True
+                if not auth:
+                    auth = Authentication(user_id=user.UserID)
+                    db.session.add(auth)
+
+                auth.token = True
                 db.session.commit()
 
                 if session['role'] == 'admin':
-                    return redirect(url_for('admin_dashboard', id=user.UserID))
+                    return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=user.UserID)})
                 elif session['role'] == 'assistant':
-                    return redirect(url_for('assistant_dashboard', id=user.UserID))
+                    return jsonify({'success': True, 'redirect_url': url_for('assistant_dashboard', id=user.UserID)})
                 elif session['role'] == 'donor':
-                    return redirect(url_for('donor_dashboard', id=user.UserID))
+                    return jsonify({'success': True, 'redirect_url': url_for('donor_dashboard', id=user.UserID)})
             else:
-                flash('Invalid credentials, please try again.', 'danger')
+                return jsonify({'success': False, 'message': 'Invalid email or password'}), 400
 
         return render_template('login.html')
+
+
 
     @app.route('/logout/<int:id>')
     def logout(id: int):
@@ -47,7 +53,3 @@ def create_user_controllers(app):
             session.clear()
 
         return redirect(url_for('login'))
-
-
-
-

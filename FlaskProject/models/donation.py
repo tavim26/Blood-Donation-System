@@ -3,6 +3,7 @@ from extensions import db
 
 class Donation(db.Model):
     __tablename__ = 'Donation'
+    DonationName = db.Column(db.String)
     DonationID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     ScheduleID = db.Column(db.Integer, db.ForeignKey('Schedule.ScheduleID', ondelete='CASCADE'))
     BloodGroup = db.Column(db.String(5), nullable=False)

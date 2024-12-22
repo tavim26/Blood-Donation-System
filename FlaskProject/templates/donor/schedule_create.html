@@ -5,7 +5,7 @@ Add New Schedule
 {% endblock %}
 
 {% block header %}
-Add New Schedule for Donor
+Program a Donation
 {% endblock %}
 
 {% block form_action %}
@@ -23,7 +23,7 @@ Add New Schedule for Donor
     <label for="form_id">Select Form</label>
     <select id="form_id" name="form_id" class="form-control" required>
         {% for form in eligibility_forms %}
-        <option value="{{ form.FormID }}">Form {{ form.FormID }} - {{ form.FormName }}</option>
+        <option value="{{ form.FormID }}">{{ form.FormName }}</option>
         {% endfor %}
     </select>
 </div>

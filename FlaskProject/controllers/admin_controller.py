@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, session, flash
+from flask import request, render_template, redirect, url_for, session, flash, jsonify
 
 from models.authentication import Authentication
 from models.blood_stock import BloodStock
@@ -78,17 +78,31 @@ def create_admin_controllers(app):
         password = request.form.get('password')
         cnp = request.form.get('cnp')
 
+        # Verificăm dacă email-ul este deja folosit
+        existing_email = User.query.filter_by(Email=email).first()
+        if existing_email:
+            return jsonify({'success': False, 'message': 'Email is already in use.'}), 400
+
+        # Verificăm dacă CNP-ul este deja folosit
+        existing_cnp = User.query.filter_by(CNP=cnp).first()
+        if existing_cnp:
+            return jsonify({'success': False, 'message': 'CNP is already in use.'}), 400
+
+        # Creăm utilizatorul
         new_user = User(first_name, last_name, email, password, cnp, 'admin')
         db.session.add(new_user)
         db.session.commit()
 
+        # Creăm adminul asociat
         admin_id = new_user.UserID
         admin = Admin(admin_id=admin_id)
         db.session.add(admin)
         db.session.commit()
 
+        # Creăm autentificarea
         new_auth = Authentication(user_id=new_user.UserID, token=False)
         db.session.add(new_auth)
         db.session.commit()
 
-        return redirect(url_for('login'))
+        # Dacă totul a mers bine, redirectăm utilizatorul către login
+        return jsonify({'success': True, 'redirect_url': url_for('login')}), 200

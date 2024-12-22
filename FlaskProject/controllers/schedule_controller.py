@@ -1,5 +1,6 @@
-from flask import request, redirect, render_template, url_for, flash, session
+from flask import request, redirect, render_template, url_for, flash, session, jsonify
 from extensions import db
+from models.notification import Notification
 from models.schedule import Schedule
 from models.donor import Donor
 from models.eligibility_form import EligibilityForm
@@ -7,7 +8,6 @@ from datetime import datetime
 
 
 def create_schedule_controller(app):
-
     @app.route("/create/schedule/<int:id>", methods=["GET", "POST"])
     def create_schedule(id: int):
         donor = Donor.query.get_or_404(id)
@@ -30,28 +30,55 @@ def create_schedule_controller(app):
                 db.session.add(new_schedule)
                 db.session.commit()
 
-                flash('Schedule created successfully!', 'success')
-                return redirect(url_for('donor_dashboard', id=session.get('user_id')))
+                # Crearea notificării pentru donator
+                notification_message = f"You have scheduled a blood donation on {appointment_date.strftime('%Y-%m-%d %H:%M')}."
+
+                new_notification = Notification(
+                    DonorID=id,
+                    NotificationType='Appointment',
+                    Message=notification_message
+                )
+
+                db.session.add(new_notification)
+                db.session.commit()
+
+                return jsonify({'success': True, 'message': 'Schedule created successfully!',
+                                'redirect_url': url_for('donor_dashboard', id=session.get('user_id'))}), 200
 
             except Exception as e:
                 print(str(e))
                 db.session.rollback()
-                flash('An error occurred while creating the schedule.', 'error')
-                return redirect(request.url)
+                return jsonify(
+                    {'success': False, 'message': f'An error occurred while creating the schedule: {str(e)}'}), 500
 
         else:
             eligibility_forms = EligibilityForm.query.filter_by(DonorID=id).all()
 
             return render_template('donor/schedule_create.html', donor=donor, eligibility_forms=eligibility_forms)
 
+    from models.notification import Notification
 
 
-    @app.route("/confirm/schedule/<int:id>")
+
+
+    @app.route("/confirm/schedule/<int:schedule_id>")
     def confirm_schedule(schedule_id: int):
         schedule = Schedule.query.get_or_404(schedule_id)
+        donor_id = schedule.DonorID  # Obține DonorID din relația Schedule
+
         try:
             schedule.Status = 'confirmed'
             db.session.commit()
+
+            # Adaugă notificare pentru donator
+            notification = Notification(
+                DonorID=donor_id,
+                NotificationType="Schedule Confirmation",
+                Message=f"Your schedule on {schedule.AppointmentDate.strftime('%Y-%m-%d %H:%M')} has been confirmed."
+            )
+            db.session.add(notification)
+            db.session.commit()
+
             flash('Schedule confirmed successfully.', 'success')
         except Exception as e:
             db.session.rollback()
@@ -61,13 +88,25 @@ def create_schedule_controller(app):
 
 
 
-    @app.route("/cancel/schedule/<int:id>")
+    @app.route("/cancel/schedule/<int:schedule_id>")
     def cancel_schedule(schedule_id: int):
         schedule = Schedule.query.get_or_404(schedule_id)
+        donor_id = schedule.DonorID  # Obține DonorID din relația Schedule
+
         try:
             schedule.Status = 'canceled'
             db.session.commit()
-            flash('Schedule cancelled successfully.', 'success')
+
+            # Adaugă notificare pentru donator
+            notification = Notification(
+                DonorID=donor_id,
+                NotificationType="Schedule Cancellation",
+                Message=f"Your schedule on {schedule.AppointmentDate.strftime('%Y-%m-%d %H:%M')} has been canceled."
+            )
+            db.session.add(notification)
+            db.session.commit()
+
+            flash('Schedule canceled successfully.', 'success')
         except Exception as e:
             db.session.rollback()
             flash(f'Error: {str(e)}', 'danger')
@@ -76,7 +115,7 @@ def create_schedule_controller(app):
 
 
 
-    @app.route("/delete/schedule/<int:id>")
+    @app.route("/delete/schedule/<int:schedule_id>")
     def delete_schedule(schedule_id: int):
         schedule = Schedule.query.get_or_404(schedule_id)
 
@@ -89,6 +128,7 @@ def create_schedule_controller(app):
             flash(f'Error: {str(e)}', 'danger')
 
         return redirect(url_for('donor_dashboard', id=session.get('user_id')))
+
 
 
 
@@ -108,14 +148,14 @@ def create_schedule_controller(app):
 
                 db.session.commit()
 
-                flash('Schedule updated successfully!', 'success')
-                return redirect(url_for('donor_dashboard', id=session.get('user_id')))
+                return jsonify({'success': True, 'message': 'Schedule updated successfully!',
+                                'redirect_url': url_for('donor_dashboard', id=session.get('user_id'))}), 200
 
             except Exception as e:
                 print(str(e))
                 db.session.rollback()
-                flash('An error occurred while updating the schedule.', 'error')
-                return redirect(request.url)
+                return jsonify(
+                    {'success': False, 'message': f'An error occurred while updating the schedule: {str(e)}'}), 500
 
         else:
             eligibility_forms = EligibilityForm.query.filter_by(DonorID=schedule.DonorID).all()

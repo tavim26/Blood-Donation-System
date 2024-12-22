@@ -24,10 +24,6 @@
         <input type="email" class="form-control" id="email" name="email" value="{{ admin.Email }}" readonly>
     </div>
     <div class="form-group">
-        <label for="password">Password</label>
-        <input type="text" class="form-control" id="password" name="password" value="{{ admin.Password }}" readonly>
-    </div>
-    <div class="form-group">
         <label for="cnp">CNP</label>
         <input type="text" class="form-control" id="cnp" name="cnp" value="{{ admin.CNP }}" readonly>
     </div>
@@ -227,7 +223,7 @@
     // Configurarea graficului
     const ctx = document.getElementById('bloodStockChart').getContext('2d');
     new Chart(ctx, {
-        type: 'bar', // Poți schimba tipul graficului, ex. 'line', 'pie', etc.
+        type: 'bar', 
         data: {
             labels: labels,
             datasets: [{
@@ -277,13 +273,4 @@
         </tbody>
     </table>
 </div>
-
-
-
-
-
-
-
-
-
 {% endblock %}

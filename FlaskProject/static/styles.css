@@ -1,7 +1,7 @@
 /* Aplicație pentru toate paginile */
 body {
     font-family: Arial, sans-serif;
-    background-color: #69d1e1;
+    background-color: #d3c2b8;
     margin: 0;
     padding: 0;
 }
@@ -11,7 +11,7 @@ body {
     max-width: 450px; /* Lățime mai largă pentru form-uri */
     margin: 50px auto; /* Centrare pe ecran cu spațiu sus/jos */
     padding: 25px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Umbre mai vizibile */
     overflow: hidden; /* Previne elementele care ies din container */
@@ -46,8 +46,8 @@ input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #d3c2b8;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
     outline: none;
 }
 
@@ -58,7 +58,7 @@ select {
 
 /* Buton de submit personalizat */
 input[type="submit"] {
-    background-color: #007bff;
+    background-color: #d3c2b8;
     color: #fff;
     border: none;
     padding: 12px;
@@ -71,12 +71,12 @@ input[type="submit"] {
 
 /* Hover pe butonul de submit */
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #a69889;
 }
 
 /* Buton activ pe click */
 input[type="submit"]:active {
-    background-color: #004085;
+    background-color: #a69889;
 }
 
 /* Margine generală pentru formular */
@@ -92,7 +92,7 @@ form {
 
 /* Link de login/register */
 .login-link a {
-    color: #007bff;
+    color: #a68989;
     text-decoration: none;
     font-size: 16px;
 }

@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, session, flash
+from flask import request, render_template, redirect, url_for, session, flash, jsonify
 
 from models.authentication import Authentication
 from models.blood_stock import BloodStock
@@ -19,6 +19,8 @@ def create_assistant_controllers(app):
         user = User.query.get(id)
         assistant = Assistant.query.filter_by(UserID=id).first()
 
+        assistant_id = assistant.AssistantID
+
         if not user or not assistant:
             flash('Assistant not found.', 'error')
             return redirect(url_for('login'))
@@ -27,7 +29,7 @@ def create_assistant_controllers(app):
         schedules = Schedule.query.all()
         donations = Donation.query.all()
         blood_stocks = BloodStock.query.all()
-        reports = Report.query.filter_by(AssistantID=id).all()
+        reports = Report.query.filter_by(AssistantID=assistant_id).all()
         forms = EligibilityForm.query.all()
 
         return render_template(
@@ -42,19 +44,25 @@ def create_assistant_controllers(app):
             forms=forms
         )
 
-
-
-
     @app.route('/create_assistant', methods=['POST'])
     def create_assistant():
-
-
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         email = request.form.get('email')
         password = request.form.get('password')
         cnp = request.form.get('cnp')
 
+        # Verificăm dacă email-ul este deja folosit
+        existing_email = User.query.filter_by(Email=email).first()
+        if existing_email:
+            return jsonify({'success': False, 'message': 'Email is already in use.'}), 400
+
+        # Verificăm dacă CNP-ul este deja folosit
+        existing_cnp = User.query.filter_by(CNP=cnp).first()
+        if existing_cnp:
+            return jsonify({'success': False, 'message': 'CNP is already in use.'}), 400
+
+        # Creăm utilizatorul
         new_user = User(first_name, last_name, email, password, cnp, 'assistant')
         db.session.add(new_user)
         db.session.commit()
@@ -68,9 +76,7 @@ def create_assistant_controllers(app):
         db.session.add(new_auth)
         db.session.commit()
 
-        return redirect(url_for('login'))
-
-
+        return jsonify({'success': True, 'redirect_url': url_for('login')}), 200
 
     @app.route('/add/assistant', methods=['POST', 'GET'])
     def add_assistant():
@@ -83,11 +89,8 @@ def create_assistant_controllers(app):
             password = request.form.get('password')
             cnp = request.form.get('cnp')
 
-
             if not all([first_name, last_name, email, password, cnp]) or admin_id is None:
-                flash('Please fill all the fields.', 'error')
-                return redirect(url_for('add_assistant', admin_id=admin_id))
-
+                return jsonify({'success': False, 'message': 'Please fill all the fields.'}), 400
 
             new_user = User(first_name, last_name, email, password, cnp, 'assistant')
             db.session.add(new_user)
@@ -104,17 +107,38 @@ def create_assistant_controllers(app):
                 db.session.add(new_auth)
                 db.session.commit()
 
-                return redirect(url_for('admin_dashboard', id=admin_id))
+                return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
             except Exception as e:
                 db.session.rollback()
-                flash(f'Error creating assistant: {str(e)}', 'error')
-                return redirect(url_for('add_assistant', admin_id=admin_id))
+                return jsonify({'success': False, 'message': f'Error creating assistant: {str(e)}'}), 500
 
         if not admin_id:
-            flash('Admin ID is missing.', 'error')
-            return redirect(url_for('admin_dashboard'))
+            return jsonify({'success': False, 'message': 'Admin ID is missing.'}), 400
 
         return render_template('admin/assistant_create.html', admin_id=admin_id)
+
+    @app.route("/update/assistant/<int:id>", methods=['GET', 'POST'])
+    def update_assistant(id: int):
+
+        edit_assistant = Assistant.query.get_or_404(id)
+        edit_user = User.query.get_or_404(edit_assistant.UserID)
+
+        admin_id = session.get('user_id')
+
+        if request.method == "POST":
+
+            edit_user.FirstName = request.form['first_name']
+            edit_user.LastName = request.form['last_name']
+            edit_user.Email = request.form['email']
+            edit_user.CNP = request.form['cnp']
+
+            try:
+                db.session.commit()
+                return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
+            except Exception as e:
+                return jsonify({'success': False, 'message': f'Error updating assistant: {str(e)}'}), 500
+        else:
+            return render_template('admin/assistant_update.html', assistant=edit_assistant, user=edit_user)
 
 
 
@@ -148,29 +172,6 @@ def create_assistant_controllers(app):
 
 
 
-    @app.route("/update/assistant/<int:id>", methods=['GET', 'POST'])
-    def update_assistant(id: int):
-
-        edit_assistant = Assistant.query.get_or_404(id)
-        edit_user = User.query.get_or_404(edit_assistant.UserID)
-
-        admin_id = session.get('user_id')
-
-        if request.method == "POST":
-
-            edit_user.FirstName = request.form['first_name']
-            edit_user.LastName = request.form['last_name']
-            edit_user.Email = request.form['email']
-            edit_user.Password = request.form['password']
-            edit_user.CNP = request.form['cnp']
-
-            try:
-                db.session.commit()
-                return redirect(url_for('admin_dashboard',id=admin_id))
-            except Exception as e:
-                return str(e)
-        else:
-            return render_template('admin/assistant_update.html', assistant=edit_assistant, user=edit_user)
 
 
     

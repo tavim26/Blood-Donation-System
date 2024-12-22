@@ -1,34 +1,37 @@
-{% extends "create_base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
 
-{% block title %}Create Report{% endblock %}
+    <title>Create New Report</title>
+</head>
+<body>
 
-{% block header %}Create New Report{% endblock %}
+    <div class="container mt-5">
+        <h1>Create New Report</h1>
 
-{% block form_action %}
+        <!-- Formul de creare raport -->
+        <form method="POST" action="/create/report/{{ assistant.AssistantID }}/{{ donation.DonationID }}">
 
-    /create/report/{{ assistant.AssistantID }}
+            <div class="form-group">
+                <label for="report_type">Report Type:</label>
+                <input type="text" class="form-control" id="report_type" name="report_type" required>
+            </div>
 
-{% endblock %}
+            <div class="form-group">
+                <label for="report_data">Report Data:</label>
+                <textarea class="form-control" id="report_data" name="report_data" rows="4" required></textarea>
+            </div>
 
-{% block form_content %}
-<div class="form-group">
-    <label for="donation_id">Select Donation:</label>
-    <select class="form-control" id="donation_id" name="donation_id" required>
-        <option value="">Select Donation</option>
-        {% for donation in donations %}
-        <option value="{{ donation.DonationID }}">{{ donation.schedule.donor.user.FirstName }} {{ donation.schedule.donor.user.LastName }}</option>
-        {% endfor %}
-    </select>
-</div>
+            <input type="submit" value="Add" class="btn btn-primary">
 
-<div class="form-group">
-    <label for="report_type">Report Type:</label>
-    <input type="text" class="form-control" id="report_type" name="report_type" required>
-</div>
+        </form>
+    </div>
 
-<div class="form-group">
-    <label for="report_data">Report Data:</label>
-    <textarea class="form-control" id="report_data" name="report_data" rows="4" required></textarea>
-</div>
+    <script src="/static/validation.js"></script>
 
-{% endblock %}
+</body>
+</html>

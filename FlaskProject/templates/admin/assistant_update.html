@@ -1,18 +1,8 @@
 {% extends "update_base.html" %}
 
-{% block title %}
+{% block title %}Update Assistant{% endblock %}
 
-    Update Assistant
-
-{% endblock %}
-
-
-{% block header %}
-
-    Update Assistant
-
-{% endblock %}
-
+{% block header %}Update Assistant{% endblock %}
 
 {% block form_action %}
 
@@ -37,10 +27,6 @@
     <input type="email" id="email" name="email" value="{{ user.Email }}" required>
     <br>
 
-    <!-- Input pentru Password (din User) -->
-    <label for="password">Password</label>
-    <input type="text" id="password" name="password" value="{{ user.Password }}" required>
-    <br>
 
     <!-- Input pentru CNP (din User) -->
     <label for="cnp">CNP</label>

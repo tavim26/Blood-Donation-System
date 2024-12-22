@@ -1,7 +1,7 @@
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #c2d9dd
+    background-color: #ffffff
 }
 
 /* Sidebar for Admin Profile */
@@ -33,7 +33,7 @@ h2 {
     height: 100%;
     width: 300px; /* Lățimea sidebar-ului */
     padding: 20px;
-    background-color: #00d9fd; /* Fundal albastru deschis */
+    background-color: #d3c2b8; /* Fundal albastru deschis */
     border-right: 1px solid #ccc;
     z-index: 100;
     display: flex;

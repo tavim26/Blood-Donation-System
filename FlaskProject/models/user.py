@@ -1,3 +1,5 @@
+from flask_bcrypt import generate_password_hash
+
 from extensions import db
 
 
@@ -15,6 +17,6 @@ class User(db.Model):
         self.FirstName = first_name
         self.LastName = last_name
         self.Email = email
-        self.Password = password
+        self.Password = generate_password_hash(password).decode('utf-8')  # Hash password
         self.CNP = cnp
         self.Role = role

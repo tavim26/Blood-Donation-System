@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <link rel="stylesheet" href="/static/styles.css">
 
     <meta charset="UTF-8">
@@ -8,21 +9,33 @@
     <title>Blood Donation System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/styles.css">
+
 </head>
+
 <body>
+
     <script src="/static/validation.js"></script>
+
     <div class="container text-center">
-    <h1>Welcome to the Blood Donation System</h1>
+
+    <h1>Blood Donation System</h1>
+
     <h2>Sign up as:</h2>
+
     <div class="btn-group-vertical">
+
         <button class="btn btn-primary btn-lg" onclick="window.location.href='/donor_signup'">Donor</button>
         <button class="btn btn-secondary btn-lg" onclick="window.location.href='/assistant_signup'">Assistant</button>
         <button class="btn btn-success btn-lg" onclick="window.location.href='/admin_signup'">Admin</button>
+
     </div>
+
     <div class="login-link">
         <p>Already have an account? <a href="/login">Login</a></p>
     </div>
+
 </div>
 
 </body>
+
 </html>

@@ -1,10 +1,9 @@
-from flask import request, render_template, redirect, url_for, flash, session
+from flask import request, render_template, redirect, url_for, flash, session, jsonify
 
 from models.authentication import Authentication
 from models.donation import Donation
 from models.eligibility_form import EligibilityForm
 from models.notification import Notification
-from models.reward import Reward
 from models.schedule import Schedule
 from models.user import User
 from models.donor import Donor
@@ -30,7 +29,6 @@ def create_donor_controllers(app):
         donations = db.session.query(Donation).join(Schedule).filter(Schedule.DonorID == donor.DonorID).all()
         eligibility_forms = EligibilityForm.query.filter_by(DonorID=donor.DonorID).all()
         notifications = Notification.query.filter_by(DonorID=donor.DonorID).all()
-        rewards = Reward.query.filter_by(DonorID=donor.DonorID).all()
 
         return render_template(
             'donor/donor_dashboard.html',
@@ -40,10 +38,7 @@ def create_donor_controllers(app):
             schedules=schedules,
             eligibility_forms=eligibility_forms,
             notifications=notifications,
-            rewards=rewards
         )
-
-
 
     @app.route('/create_donor', methods=['POST'])
     def create_donor():
@@ -56,7 +51,18 @@ def create_donor_controllers(app):
         age = request.form.get('age')
         gender = request.form.get('gender')
 
+        # Verificăm dacă email-ul este deja folosit
+        existing_email = User.query.filter_by(Email=email).first()
+        if existing_email:
+            return jsonify({'success': False, 'message': 'Email is already in use.'}), 400
+
+        # Verificăm dacă CNP-ul este deja folosit
+        existing_cnp = User.query.filter_by(CNP=cnp).first()
+        if existing_cnp:
+            return jsonify({'success': False, 'message': 'CNP is already in use.'}), 400
+
         try:
+            # Creăm utilizatorul
             new_user = User(first_name, last_name, email, password, cnp, 'donor')
             db.session.add(new_user)
             db.session.commit()
@@ -74,15 +80,12 @@ def create_donor_controllers(app):
         except Exception as e:
             db.session.rollback()
             print(f"Error: {e}")
+            return jsonify({'success': False, 'message': 'An error occurred during user creation.'}), 500
 
-        return redirect(url_for('login'))
-
-
-
+        return jsonify({'success': True, 'redirect_url': url_for('login')}), 200
 
     @app.route('/add/donor', methods=['POST', 'GET'])
     def add_donor():
-
         admin_id = session.get('user_id')
 
         if request.method == 'POST':
@@ -94,6 +97,9 @@ def create_donor_controllers(app):
             blood_group = request.form['blood_group']
             age = request.form['age']
             gender = request.form['gender']
+
+            if not all([first_name, last_name, email, password, cnp, blood_group, age, gender]):
+                return jsonify({'success': False, 'message': 'Please fill all the fields.'}), 400
 
             try:
                 new_user = User(first_name, last_name, email, password, cnp, 'donor')
@@ -109,13 +115,39 @@ def create_donor_controllers(app):
                 db.session.add(new_auth)
                 db.session.commit()
 
-                return redirect(url_for('admin_dashboard', id=admin_id))
-
+                return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
             except Exception as e:
                 db.session.rollback()
-                return str(e)
+                return jsonify({'success': False, 'message': f'Error adding donor: {str(e)}'}), 500
 
         return render_template('admin/donor_create.html')
+
+    @app.route("/update/donor/<int:id>", methods=['GET', 'POST'])
+    def updateDonor(id: int):
+        edit_donor = Donor.query.get_or_404(id)
+        edit_user = User.query.get_or_404(edit_donor.UserID)
+        admin_id = session.get('user_id')
+
+        if request.method == "POST":
+            edit_donor.Age = request.form['age']
+            edit_donor.Gender = request.form['gender']
+            edit_donor.BloodGroup = request.form['bloodgroup']
+
+            edit_user.FirstName = request.form['first_name']
+            edit_user.LastName = request.form['last_name']
+            edit_user.Email = request.form['email']
+            edit_user.CNP = request.form['cnp']
+
+            try:
+                db.session.commit()
+                return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
+            except Exception as e:
+                return jsonify({'success': False, 'message': f'Error updating donor: {str(e)}'}), 500
+        else:
+            return render_template('admin/donor_update.html', donor=edit_donor, user=edit_user)
+
+
+
 
     @app.route("/delete/donor/<int:id>")
     def deleteDonor(id: int):
@@ -139,37 +171,6 @@ def create_donor_controllers(app):
             db.session.rollback()
             print(f"Error: {e}")
             return str(e)
-
-    @app.route("/update/donor/<int:id>", methods=['GET', 'POST'])
-    def updateDonor(id: int):
-
-        edit_donor = Donor.query.get_or_404(id)
-
-        admin_id = session.get('user_id')
-
-        edit_user = User.query.get_or_404(edit_donor.UserID)
-
-        if request.method == "POST":
-            edit_donor.Age = request.form['age']
-            edit_donor.Gender = request.form['gender']
-            edit_donor.BloodGroup = request.form['bloodgroup']
-
-            edit_user.FirstName = request.form['first_name']
-            edit_user.LastName = request.form['last_name']
-            edit_user.Email = request.form['email']
-            edit_user.Password = request.form['password']
-            edit_user.CNP = request.form['cnp']
-
-            try:
-                db.session.commit()
-                return redirect(url_for('admin_dashboard',id=admin_id))
-            except Exception as e:
-                return str(e)
-        else:
-            return render_template('admin/donor_update.html', donor=edit_donor, user=edit_user)
-
-
-
 
 
 
