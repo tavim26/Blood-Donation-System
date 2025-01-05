@@ -51,18 +51,18 @@ def create_donor_controllers(app):
         age = request.form.get('age')
         gender = request.form.get('gender')
 
-        # Verificăm dacă email-ul este deja folosit
+
         existing_email = User.query.filter_by(Email=email).first()
         if existing_email:
             return jsonify({'success': False, 'message': 'Email is already in use.'}), 400
 
-        # Verificăm dacă CNP-ul este deja folosit
+
         existing_cnp = User.query.filter_by(CNP=cnp).first()
         if existing_cnp:
             return jsonify({'success': False, 'message': 'CNP is already in use.'}), 400
 
         try:
-            # Creăm utilizatorul
+
             new_user = User(first_name, last_name, email, password, cnp, 'donor')
             db.session.add(new_user)
             db.session.commit()
@@ -72,7 +72,7 @@ def create_donor_controllers(app):
             db.session.add(donor)
             db.session.commit()
 
-            # Creăm o intrare în tabela Authentication
+
             new_auth = Authentication(user_id=new_user.UserID, token=False)
             db.session.add(new_auth)
             db.session.commit()
@@ -146,9 +146,6 @@ def create_donor_controllers(app):
         else:
             return render_template('admin/donor_update.html', donor=edit_donor, user=edit_user)
 
-
-
-
     @app.route("/delete/donor/<int:id>")
     def deleteDonor(id: int):
         admin_id = session.get('user_id')
@@ -156,21 +153,41 @@ def create_donor_controllers(app):
         delete_donor = Donor.query.get_or_404(id)
 
         try:
-            user_to_delete = User.query.get(delete_donor.UserID)
+            # Încearcă să ștergi programările asociate
+            schedules = Schedule.query.filter_by(DonorID=delete_donor.DonorID).all()
+            for schedule in schedules:
+                db.session.delete(schedule)
 
+            # Șterge formularele de eligibilitate asociate
+            eligibility_forms = EligibilityForm.query.filter_by(DonorID=delete_donor.DonorID).all()
+            for form in eligibility_forms:
+                db.session.delete(form)
+
+            # Șterge notificările asociate
+            notifications = Notification.query.filter_by(DonorID=delete_donor.DonorID).all()
+            for notification in notifications:
+                db.session.delete(notification)
+
+            # Șterge utilizatorul și autentificarea asociată
+            user_to_delete = User.query.get(delete_donor.UserID)
             auth_to_delete = Authentication.query.filter_by(UserID=user_to_delete.UserID).first()
+
             if auth_to_delete:
                 db.session.delete(auth_to_delete)
 
             db.session.delete(user_to_delete)
             db.session.delete(delete_donor)
+
+            # Comite schimbările
             db.session.commit()
 
             return redirect(url_for('admin_dashboard', id=admin_id))
+
         except Exception as e:
             db.session.rollback()
             print(f"Error: {e}")
             return str(e)
+
 
 
 

@@ -13,23 +13,23 @@ def create_donation_controller(app):
         donor_id = session.get('user_id')
 
         try:
-            # Obține schedule, donor și eligibility_form
+
             schedule = Schedule.query.filter_by(ScheduleID=schedule_id).first_or_404()
             donor = Donor.query.filter_by(DonorID=schedule.DonorID).first_or_404()
             eligibility_form = EligibilityForm.query.filter_by(FormID=schedule.FormID).first_or_404()
 
-            # Calculează cantitatea de sânge pe baza greutății
+
             weight = eligibility_form.Weight
             quantity = random.randint(350, 450) if weight > 50 else random.randint(250, 350)
 
-            # Formatează numele donației
-            donor_name = donor.user.FirstName + donor.user.LastName  # Numele complet al donatorului
-            donation_date = schedule.AppointmentDate.strftime('%Y-%m-%d')  # Formatează data donației
-            donation_name = f"Donation_{donor_name}_{donation_date}"  # Combină numele și data donației
 
-            # Creează o nouă donație
+            donor_name = donor.user.FirstName + donor.user.LastName
+            donation_date = schedule.AppointmentDate.strftime('%Y-%m-%d')
+            donation_name = f"Donation_{donor_name}_{donation_date}"
+
+
             new_donation = Donation(
-                DonationName=donation_name,  # Setează numele donației
+                DonationName=donation_name,
                 ScheduleID=schedule.ScheduleID,
                 BloodGroup=eligibility_form.BloodGroup,
                 Quantity=quantity,
@@ -37,7 +37,7 @@ def create_donation_controller(app):
                 Status='pending'
             )
 
-            # Adaugă donația în baza de date
+
             db.session.add(new_donation)
             schedule.Status = 'completed'
             db.session.commit()

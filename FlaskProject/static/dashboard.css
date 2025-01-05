@@ -31,27 +31,27 @@ h2 {
     top: 0;
     left: 0;
     height: 100%;
-    width: 300px; /* Lățimea sidebar-ului */
+    width: 300px;
     padding: 20px;
-    background-color: #d3c2b8; /* Fundal albastru deschis */
+    background-color: #d3c2b8;
     border-right: 1px solid #ccc;
     z-index: 100;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centrează pe verticală */
-    align-items: center; /* Centrează pe orizontală */
+    justify-content: center;
+    align-items: center;
 }
 
 /* Conținutul sidebar-ului */
 .sidebar-content {
-    width: 100%; /* Asigură că ocupă toată lățimea sidebar-ului */
+    width: 100%;
     padding: 10px;
-    text-align: center; /* Centrează textul pe orizontală */
+    text-align: center;
 }
 
 
 
 .container {
-    margin-left: 270px; /* Asigură că conținutul principal nu se suprapune cu sidebar-ul */
+    margin-left: 270px;
 }
 

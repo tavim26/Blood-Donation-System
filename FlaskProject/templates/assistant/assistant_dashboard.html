@@ -49,7 +49,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Donor Name</th>
+                <th>Donation Name</th>
                 <th>Blood Group</th>
                 <th>Quantity</th>
                 <th>Donation Date</th>
@@ -61,7 +61,7 @@
         <tbody>
             {% for donation in donations %}
             <tr>
-                <td>{{ donation.schedule.donor.user.FirstName }} {{ donation.schedule.donor.user.LastName }}</td>
+                <td>{{ donation.DonationName }}</td>
                 <td>{{ donation.BloodGroup }}</td>
                 <td>{{ donation.Quantity }}</td>
                 <td>{{ donation.DonationDate }}</td>

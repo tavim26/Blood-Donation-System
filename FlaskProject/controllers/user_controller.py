@@ -14,7 +14,7 @@ def create_user_controllers(app):
 
             user = User.query.filter_by(Email=email).first()
 
-            # Validare credențiale
+
             if user and bcrypt.check_password_hash(user.Password, password):
                 session['user_id'] = user.UserID
                 session['role'] = user.Role

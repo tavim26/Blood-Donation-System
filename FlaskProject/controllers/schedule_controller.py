@@ -1,6 +1,5 @@
 from flask import request, redirect, render_template, url_for, flash, session, jsonify
 from extensions import db
-from models.notification import Notification
 from models.schedule import Schedule
 from models.donor import Donor
 from models.eligibility_form import EligibilityForm
@@ -16,7 +15,7 @@ def create_schedule_controller(app):
             try:
                 appointment_date_str = request.form['appointment_date']
                 form_id = int(request.form['form_id'])
-                status = request.form.get('status', 'pending')  # Status-ul implicit este 'pending'
+                status = request.form.get('status', 'pending')
 
                 appointment_date = datetime.strptime(appointment_date_str, "%Y-%m-%dT%H:%M")
 
@@ -30,7 +29,7 @@ def create_schedule_controller(app):
                 db.session.add(new_schedule)
                 db.session.commit()
 
-                # Crearea notificării pentru donator
+
                 notification_message = f"You have scheduled a blood donation on {appointment_date.strftime('%Y-%m-%d %H:%M')}."
 
                 new_notification = Notification(
@@ -64,13 +63,12 @@ def create_schedule_controller(app):
     @app.route("/confirm/schedule/<int:schedule_id>")
     def confirm_schedule(schedule_id: int):
         schedule = Schedule.query.get_or_404(schedule_id)
-        donor_id = schedule.DonorID  # Obține DonorID din relația Schedule
+        donor_id = schedule.DonorID
 
         try:
             schedule.Status = 'confirmed'
             db.session.commit()
 
-            # Adaugă notificare pentru donator
             notification = Notification(
                 DonorID=donor_id,
                 NotificationType="Schedule Confirmation",
@@ -91,13 +89,12 @@ def create_schedule_controller(app):
     @app.route("/cancel/schedule/<int:schedule_id>")
     def cancel_schedule(schedule_id: int):
         schedule = Schedule.query.get_or_404(schedule_id)
-        donor_id = schedule.DonorID  # Obține DonorID din relația Schedule
+        donor_id = schedule.DonorID
 
         try:
             schedule.Status = 'canceled'
             db.session.commit()
 
-            # Adaugă notificare pentru donator
             notification = Notification(
                 DonorID=donor_id,
                 NotificationType="Schedule Cancellation",

@@ -22,7 +22,7 @@
 
     <div class="form-group">
         <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" name="age" value="{{ donor.Age }}" required min="18">
+        <input type="number" class="form-control" id="age" name="age" value="{{ donor.Age }}" required min="18" max="65">
     </div>
 
     <div class="form-group">
@@ -37,7 +37,7 @@
 
     <div class="form-group">
         <label for="notes">Notes</label>
-        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+        <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
     </div>
 
 {% endblock %}

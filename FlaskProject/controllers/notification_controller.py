@@ -1,10 +1,8 @@
 from flask import request, render_template, redirect, url_for, session, flash, jsonify
 
-
 from models.notification import Notification
 
 from extensions import db
-
 
 
 def create_notification_controller(app):

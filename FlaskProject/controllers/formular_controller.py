@@ -22,18 +22,18 @@ def create_formular_controller(app):
 
         if request.method == 'POST':
             try:
-                # Obține datele din formular
-                form_name = f"Form_{donor.user.FirstName}{donor.user.LastName}_{id}"  # Numele formularului automat
+
+                form_name = f"Form_{donor.user.FirstName}{donor.user.LastName}_{id}"
                 blood_group = request.form['blood_group']
                 age = int(request.form['age'])
                 gender = request.form['gender']
                 weight = int(request.form['weight'])
                 notes = request.form.get('notes', '')
 
-                # Creează formularul de eligibilitate
+
                 new_form = EligibilityForm(
                     DonorID=id,
-                    FormName=form_name,  # Setează numele formularului automat
+                    FormName=form_name,
                     BloodGroup=blood_group,
                     Age=age,
                     Gender=gender,
@@ -42,7 +42,7 @@ def create_formular_controller(app):
                     IsEligible=True
                 )
 
-                # Adaugă formularul în baza de date
+
                 db.session.add(new_form)
                 db.session.commit()
 
@@ -50,7 +50,7 @@ def create_formular_controller(app):
                     {'success': True, 'redirect_url': url_for('donor_dashboard', id=session.get('user_id'))}), 200
 
             except Exception as e:
-                print(str(e))  # Tratează eroarea, dacă există
+                print(str(e))
                 return jsonify({'success': False, 'message': 'An error occurred while creating the form.'}), 500
         else:
             return render_template('donor/form_create.html', donor=donor)

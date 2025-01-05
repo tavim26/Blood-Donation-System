@@ -15,8 +15,8 @@ def create_report_controller(app):
             return render_template('assistant/report_create.html', assistant=assistant, donation=donation)
 
         elif request.method == 'POST':
-            report_type = request.form.get('report_type')  # Folosește form data
-            report_data = request.form.get('report_data')  # Folosește form data
+            report_type = request.form.get('report_type')
+            report_data = request.form.get('report_data')
 
             if not report_type or not report_data:
                 flash('All fields are required.', 'danger')
@@ -38,18 +38,19 @@ def create_report_controller(app):
                 flash(f'Error creating report: {str(e)}', 'danger')
                 return redirect(url_for('create_report', assistant_id=assistant_id, donation_id=donation_id))
 
-            # Verifică dacă user_id există în sesiune și redirecționează corespunzător
+
             user_id = session.get('user_id')
             if user_id:
-                print(f"Redirecting to assistant dashboard with user_id={user_id}")  # Debugging
+
                 return redirect(url_for('assistant_dashboard', id=user_id))
             else:
                 flash('User session expired or not found.', 'danger')
-                return redirect(url_for('login'))  # Redirecționează către login, dacă user_id nu este găsit
+                return redirect(url_for('login'))
+
 
     @app.route('/delete/report/<int:report_id>', methods=['GET', 'POST'])
     def delete_report(report_id):
-        report = Report.query.get_or_404(report_id)  # Caută raportul sau returnează 404 dacă nu există
+        report = Report.query.get_or_404(report_id)
 
         try:
             db.session.delete(report)

@@ -23,5 +23,10 @@ def create_controllers(app):
     def assistant_signup():
         return render_template('assistant_signup.html')
 
+    @app.route('/about_donation')
+    def about_donation():
+        return render_template('about_donation.html')
+
+
 
 

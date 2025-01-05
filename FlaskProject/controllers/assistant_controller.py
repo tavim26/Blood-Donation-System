@@ -52,17 +52,16 @@ def create_assistant_controllers(app):
         password = request.form.get('password')
         cnp = request.form.get('cnp')
 
-        # Verificăm dacă email-ul este deja folosit
+
         existing_email = User.query.filter_by(Email=email).first()
         if existing_email:
             return jsonify({'success': False, 'message': 'Email is already in use.'}), 400
 
-        # Verificăm dacă CNP-ul este deja folosit
         existing_cnp = User.query.filter_by(CNP=cnp).first()
         if existing_cnp:
             return jsonify({'success': False, 'message': 'CNP is already in use.'}), 400
 
-        # Creăm utilizatorul
+
         new_user = User(first_name, last_name, email, password, cnp, 'assistant')
         db.session.add(new_user)
         db.session.commit()

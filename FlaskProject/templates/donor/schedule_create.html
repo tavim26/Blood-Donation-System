@@ -23,10 +23,13 @@ Program a Donation
     <label for="form_id">Select Form</label>
     <select id="form_id" name="form_id" class="form-control" required>
         {% for form in eligibility_forms %}
-        <option value="{{ form.FormID }}">{{ form.FormName }}</option>
+            {% if form.IsEligible %}
+                <option value="{{ form.FormID }}">{{ form.FormName }}</option>
+            {% endif %}
         {% endfor %}
     </select>
 </div>
+
 
 <input type="hidden" id="status" name="status" value="pending">
 
