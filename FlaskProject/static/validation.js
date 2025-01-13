@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'email':
                 validateEmail(target);
                 break;
+
+            case 'appointment_date':
+                validateAppointmentDate(target)
+                break;
         }
     });
 
@@ -92,6 +96,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(input.value)) {
             setInvalid(input, 'Please enter a valid email address.');
+        } else {
+            clearInvalid(input);
+        }
+    }
+
+
+    function validateAppointmentDate(input) {
+        const inputDate = new Date(input.value);
+        const currentDate = new Date();
+        if (inputDate < currentDate) {
+            setInvalid(input, 'The date cannot be in the past.');
         } else {
             clearInvalid(input);
         }
