@@ -1,36 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/styles.css">
+{% extends "create_base.html" %}
 
-    <title>Create New Report</title>
-</head>
-<body>
+{% block title %}
+Create New Report
+{% endblock %}
 
-    <div class="container mt-5">
-        <h1>Create New Report</h1>
+{% block header %}
+Create New Report
+{% endblock %}
 
-        <form method="POST" action="/create/report/{{ assistant.AssistantID }}/{{ donation.DonationID }}">
+{% block form_action %}
+/create/report/{{ assistant.AssistantID }}/{{ donation.DonationID }}
+{% endblock %}
 
-            <div class="form-group">
-                <label for="report_type">Report Type:</label>
-                <input type="text" class="form-control" id="report_type" name="report_type" required>
-            </div>
+{% block form_content %}
+<div class="form-group">
+    <label for="report_type">Report Type:</label>
+    <input type="text" class="form-control" id="report_type" name="report_type" required>
+</div>
 
-            <div class="form-group">
-                <label for="report_data">Report Data:</label>
-                <textarea class="form-control" id="report_data" name="report_data" rows="4" required></textarea>
-            </div>
-
-            <input type="submit" value="Add" class="btn btn-primary">
-
-        </form>
-    </div>
-
-    <script src="/static/validation.js"></script>
-
-</body>
-</html>
+<div class="form-group">
+    <label for="report_data">Report Data:</label>
+    <textarea class="form-control" id="report_data" name="report_data" rows="4" required></textarea>
+</div>
+{% endblock %}

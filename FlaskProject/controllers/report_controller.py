@@ -12,16 +12,12 @@ def create_report_controller(app):
         assistant = Assistant.query.get_or_404(assistant_id)
         donation = Donation.query.get_or_404(donation_id)
 
-        if request.method == 'GET':
-            return render_template('assistant/report_create.html', assistant=assistant, donation=donation)
-
-        elif request.method == 'POST':
+        if request.method == 'POST':
             report_type = request.form.get('report_type')
             report_data = request.form.get('report_data')
 
             if not report_type or not report_data:
-                flash('All fields are required.', 'danger')
-                return redirect(url_for('create_report', assistant_id=assistant_id, donation_id=donation_id))
+                return jsonify({'success': False, 'message': 'All fields are required.'}), 400
 
             new_report = Report(
                 AssistantID=assistant_id,
@@ -35,26 +31,19 @@ def create_report_controller(app):
                 db.session.commit()
 
                 new_activity = ActivityLog(
-                    Action=f"Assistant with email {assistant.user.email} created a report for {donation.DonationName}",
+                    Action=f"Assistant with email {assistant.user.email} created a report for {donation.DonationName}.",
                 )
                 db.session.add(new_activity)
                 db.session.commit()
 
-                flash('Report created successfully!', 'success')
+                return jsonify({'success': True, 'message': 'Report created successfully!',
+                                'redirect_url': url_for('assistant_dashboard', id=session.get('user_id'))}), 200
+
             except Exception as e:
                 db.session.rollback()
-                flash(f'Error creating report: {str(e)}', 'danger')
-                return redirect(url_for('create_report', assistant_id=assistant_id, donation_id=donation_id))
+                return jsonify({'success': False, 'message': f'Error creating report: {str(e)}'}), 500
 
-
-            user_id = session.get('user_id')
-            if user_id:
-
-                return redirect(url_for('assistant_dashboard', id=user_id))
-            else:
-                flash('User session expired or not found.', 'danger')
-                return redirect(url_for('login'))
-
+        return render_template('assistant/report_create.html', assistant=assistant, donation=donation)
 
     @app.route('/delete/report/<int:report_id>', methods=['GET', 'POST'])
     def delete_report(report_id):
