@@ -57,7 +57,6 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <th>Password</th>
                     <th>CNP</th>
                     <th>Age</th>
                     <th>Gender</th>
@@ -71,7 +70,6 @@
                     <td>{{ donor.FirstName }}</td>
                     <td>{{ donor.LastName }}</td>
                     <td>{{ donor.Email }}</td>
-                    <td>{{ donor.Password }}</td>
                     <td>{{ donor.CNP }}</td>
                     <td>{{ donor.Age }}</td>
                     <td>{{ donor.Gender }}</td>
@@ -100,7 +98,6 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <th>Password</th>
                     <th>CNP</th>
                     <th>Actions</th>
                 </tr>
@@ -111,7 +108,6 @@
                     <td>{{ assistant.FirstName }}</td>
                     <td>{{ assistant.LastName }}</td>
                     <td>{{ assistant.Email }}</td>
-                    <td>{{ assistant.Password }}</td>
                     <td>{{ assistant.CNP }}</td>
                     <td>
                         <a href="/delete/assistant/{{ assistant.AssistantID }} ">Delete</a>
@@ -172,7 +168,6 @@
                 <th> Report Type</th>
                 <th> Report Data</th>
 
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -182,10 +177,7 @@
                 <td>{{ report.ReportType }}</td>
                 <td>{{ report.ReportData }}</td>
 
-                <td>
-                    <a href="/delete/report/{{ report.ReportID }}">Delete</a>
 
-                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -203,11 +195,11 @@
     <canvas id="bloodStockChart"></canvas>
 </div>
 
-<!-- Include librăria Chart.js -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    // Pregătește datele pentru grafic
+
     const labels = [
         {% for blood_stock in blood_stocks %}
         '{{ blood_stock.BloodGroup }}',
@@ -255,7 +247,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th> User Email</th>
                 <th> Action </th>
                 <th> Timestamp </th>
 
@@ -264,7 +255,6 @@
         <tbody>
             {% for activity_log in activity_logs %}
             <tr>
-                <td>{{ activity_log.user.Email }}</td>
                 <td>{{ activity_log.Action }}</td>
                 <td>{{ activity_log.Timestamp }}</td>
 

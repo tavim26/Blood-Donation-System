@@ -1,5 +1,6 @@
 from flask import request, redirect, render_template, url_for, session, flash, jsonify
 
+from models.activity_log import ActivityLog
 from models.assistant import Assistant, db
 from models.donation import Donation
 from models.report import Report
@@ -32,6 +33,13 @@ def create_report_controller(app):
             try:
                 db.session.add(new_report)
                 db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"Assistant with email {assistant.user.email} created a report for {donation.DonationName}",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 flash('Report created successfully!', 'success')
             except Exception as e:
                 db.session.rollback()
@@ -55,6 +63,13 @@ def create_report_controller(app):
         try:
             db.session.delete(report)
             db.session.commit()
+
+            new_activity = ActivityLog(
+                Action=f"Report with id {report_id} was deleted",
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
             flash('Report deleted successfully!', 'success')
         except Exception as e:
             db.session.rollback()

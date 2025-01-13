@@ -181,10 +181,9 @@
         <canvas id="bloodStockChart"></canvas>
     </div>
 
-    <!-- Include librăria Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Pregătește datele pentru grafic
+
         const labels = [
             {% for blood_stock in blood_stocks %}
             '{{ blood_stock.BloodGroup }}',
@@ -197,10 +196,10 @@
             {% endfor %}
         ];
 
-        // Configurarea graficului
+
         const ctx = document.getElementById('bloodStockChart').getContext('2d');
         new Chart(ctx, {
-            type: 'bar', // Poți schimba tipul graficului, ex. 'line', 'pie', etc.
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{

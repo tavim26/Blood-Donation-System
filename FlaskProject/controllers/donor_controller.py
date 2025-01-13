@@ -1,5 +1,6 @@
 from flask import request, render_template, redirect, url_for, flash, session, jsonify
 
+from models.activity_log import ActivityLog
 from models.authentication import Authentication
 from models.donation import Donation
 from models.eligibility_form import EligibilityForm
@@ -77,6 +78,12 @@ def create_donor_controllers(app):
             db.session.add(new_auth)
             db.session.commit()
 
+            new_activity = ActivityLog(
+                Action=f"Donor with email {new_user.Email} signed up.",
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
         except Exception as e:
             db.session.rollback()
             print(f"Error: {e}")
@@ -115,6 +122,12 @@ def create_donor_controllers(app):
                 db.session.add(new_auth)
                 db.session.commit()
 
+                new_activity = ActivityLog(
+                    Action=f"Donor with email {donor.user.Email} was added to the database.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
             except Exception as e:
                 db.session.rollback()
@@ -140,6 +153,13 @@ def create_donor_controllers(app):
 
             try:
                 db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"Donor with email {edit_donor.user.Email} was updated.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
             except Exception as e:
                 return jsonify({'success': False, 'message': f'Error updating donor: {str(e)}'}), 500
@@ -153,22 +173,22 @@ def create_donor_controllers(app):
         delete_donor = Donor.query.get_or_404(id)
 
         try:
-            # Încearcă să ștergi programările asociate
+
             schedules = Schedule.query.filter_by(DonorID=delete_donor.DonorID).all()
             for schedule in schedules:
                 db.session.delete(schedule)
 
-            # Șterge formularele de eligibilitate asociate
+
             eligibility_forms = EligibilityForm.query.filter_by(DonorID=delete_donor.DonorID).all()
             for form in eligibility_forms:
                 db.session.delete(form)
 
-            # Șterge notificările asociate
+
             notifications = Notification.query.filter_by(DonorID=delete_donor.DonorID).all()
             for notification in notifications:
                 db.session.delete(notification)
 
-            # Șterge utilizatorul și autentificarea asociată
+
             user_to_delete = User.query.get(delete_donor.UserID)
             auth_to_delete = Authentication.query.filter_by(UserID=user_to_delete.UserID).first()
 
@@ -178,7 +198,13 @@ def create_donor_controllers(app):
             db.session.delete(user_to_delete)
             db.session.delete(delete_donor)
 
-            # Comite schimbările
+
+            db.session.commit()
+
+            new_activity = ActivityLog(
+                Action=f"Donor with email {delete_donor.user.Email} was deleted.",
+            )
+            db.session.add(new_activity)
             db.session.commit()
 
             return redirect(url_for('admin_dashboard', id=admin_id))

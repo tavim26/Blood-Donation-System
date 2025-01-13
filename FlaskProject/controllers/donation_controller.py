@@ -1,6 +1,7 @@
 import random
 from flask import url_for, redirect, flash, request, session
 from extensions import db
+from models.activity_log import ActivityLog
 from models.blood_stock import BloodStock
 from models.donation import Donation
 from models.donor import Donor
@@ -41,6 +42,13 @@ def create_donation_controller(app):
             db.session.add(new_donation)
             schedule.Status = 'completed'
             db.session.commit()
+
+            new_activity = ActivityLog(
+                Action=f"Donation {new_donation.DonationName} was created.",
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
             flash('Donation created successfully!', 'success')
 
         except Exception as e:
@@ -69,6 +77,13 @@ def create_donation_controller(app):
 
             try:
                 db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"Donation {donation.DonationName} was set as completed.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 flash('Donation status updated to completed and blood stock incremented.', 'success')
             except Exception as e:
                 db.session.rollback()
@@ -92,6 +107,13 @@ def create_donation_controller(app):
             donation.Status = 'returned'
             try:
                 db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"Donation {donation.DonationName} was set as returned.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 flash('Donation status updated to returned.', 'success')
             except Exception as e:
                 db.session.rollback()
@@ -120,6 +142,13 @@ def create_donation_controller(app):
                 blood_stock.QuantityInStock = max(blood_stock.QuantityInStock - quantity, 0)
 
             db.session.commit()
+
+            new_activity = ActivityLog(
+                Action=f"Donation {donation.DonationName} was deleted.",
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
             flash('Donation deleted and stock updated successfully!', 'success')
         except Exception as e:
             db.session.rollback()

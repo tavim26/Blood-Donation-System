@@ -1,4 +1,6 @@
 from flask import request, render_template, redirect, url_for, session, flash
+
+from models.activity_log import ActivityLog
 from models.authentication import Authentication
 from models.user import User, db
 from extensions import bcrypt
@@ -27,6 +29,12 @@ def create_user_controllers(app):
                 auth.token = True
                 db.session.commit()
 
+                new_activity = ActivityLog(
+                    Action=f"User with email {user.Email} logged in"
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 if session['role'] == 'admin':
                     return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=user.UserID)})
                 elif session['role'] == 'assistant':
@@ -48,6 +56,12 @@ def create_user_controllers(app):
                 auth = Authentication.query.filter_by(UserID=user.UserID).first()
                 if auth:
                     auth.token = False
+                    db.session.commit()
+
+                    new_activity = ActivityLog(
+                        Action=f"User with email {user.Email} logged out"
+                    )
+                    db.session.add(new_activity)
                     db.session.commit()
 
             session.clear()

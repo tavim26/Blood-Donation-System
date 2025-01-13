@@ -1,5 +1,6 @@
 from flask import request, render_template, redirect, url_for, session, flash, jsonify
 
+from models.activity_log import ActivityLog
 from models.authentication import Authentication
 from models.blood_stock import BloodStock
 from models.donation import Donation
@@ -75,6 +76,12 @@ def create_assistant_controllers(app):
         db.session.add(new_auth)
         db.session.commit()
 
+        new_activity = ActivityLog(
+            Action=f"Assistant with email {new_user.Email} signed up.",
+        )
+        db.session.add(new_activity)
+        db.session.commit()
+
         return jsonify({'success': True, 'redirect_url': url_for('login')}), 200
 
     @app.route('/add/assistant', methods=['POST', 'GET'])
@@ -106,6 +113,12 @@ def create_assistant_controllers(app):
                 db.session.add(new_auth)
                 db.session.commit()
 
+                new_activity = ActivityLog(
+                    Action=f"Assistant with email {assistant.user.Email} was added to the database.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
             except Exception as e:
                 db.session.rollback()
@@ -133,6 +146,13 @@ def create_assistant_controllers(app):
 
             try:
                 db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"Assistant with email {edit_assistant.user.Email} was updated.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
+
                 return jsonify({'success': True, 'redirect_url': url_for('admin_dashboard', id=admin_id)}), 200
             except Exception as e:
                 return jsonify({'success': False, 'message': f'Error updating assistant: {str(e)}'}), 500
@@ -140,15 +160,19 @@ def create_assistant_controllers(app):
             return render_template('admin/assistant_update.html', assistant=edit_assistant, user=edit_user)
 
 
-
-
     @app.route("/delete/assistant/<int:id>")
     def delete_assistant(id: int):
         del_assistant = Assistant.query.get_or_404(id)
-
         admin_id = session.get('user_id')
 
         try:
+
+            reports_to_delete = Report.query.filter_by(AssistantID=del_assistant.AssistantID).all()
+            for report in reports_to_delete:
+                db.session.delete(report)
+            print(f"Deleted {len(reports_to_delete)} reports associated with assistant ID: {del_assistant.AssistantID}")
+
+
             user_to_delete = User.query.get(del_assistant.UserID)
             print(f"Deleting user with ID: {user_to_delete.UserID}")
 
@@ -157,16 +181,26 @@ def create_assistant_controllers(app):
                 db.session.delete(auth_to_delete)
                 print(f"Deleted authentication with ID: {auth_to_delete.AuthID}")
 
+
             db.session.delete(user_to_delete)
             db.session.delete(del_assistant)
             db.session.commit()
-            print("Deleted user and assistant.")
 
-            return redirect(url_for('admin_dashboard',id=admin_id))
+
+            new_activity = ActivityLog(
+                Action=f"Assistant with email {del_assistant.user.Email} and associated reports were deleted.",
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
+            print("Deleted user, assistant, and associated reports.")
+
+            return redirect(url_for('admin_dashboard', id=admin_id))
         except Exception as e:
             db.session.rollback()
             print(f"Error: {e}")
             return str(e)
+
 
 
 

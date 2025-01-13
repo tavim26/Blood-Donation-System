@@ -5,6 +5,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
+
+from models.activity_log import ActivityLog
 from models.donor import Donor
 from models.eligibility_form import EligibilityForm, db
 from models.schedule import Schedule
@@ -44,6 +46,12 @@ def create_formular_controller(app):
 
 
                 db.session.add(new_form)
+                db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"Donor with email {donor.user.Email} created a formular named {new_form.FormName}"
+                )
+                db.session.add(new_activity)
                 db.session.commit()
 
                 return jsonify(
@@ -86,6 +94,13 @@ def create_formular_controller(app):
         try:
             db.session.delete(form)
             db.session.commit()
+
+            new_activity = ActivityLog(
+                Action=f"Formular named {form.FormName} was deleted"
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
             flash('Form deleted successfully.', 'success')
         except Exception as e:
             db.session.rollback()

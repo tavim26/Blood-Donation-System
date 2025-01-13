@@ -1,5 +1,6 @@
 from flask import request, redirect, render_template, url_for, flash, session, jsonify
 from extensions import db
+from models.activity_log import ActivityLog
 from models.schedule import Schedule
 from models.donor import Donor
 from models.eligibility_form import EligibilityForm
@@ -39,6 +40,12 @@ def create_schedule_controller(app):
                 )
 
                 db.session.add(new_notification)
+                db.session.commit()
+
+                new_activity = ActivityLog(
+                    Action=f"User with email {donor.user.Email} programmed a donation at {appointment_date.strftime('%Y-%m-%d %H:%M')}.",
+                )
+                db.session.add(new_activity)
                 db.session.commit()
 
                 return jsonify({'success': True, 'message': 'Schedule created successfully!',
@@ -119,6 +126,13 @@ def create_schedule_controller(app):
         try:
             db.session.delete(schedule)
             db.session.commit()
+
+            new_activity = ActivityLog(
+                Action=f"The schedule with {schedule.AppointmentDate.strftime('%Y-%m-%d %H:%M')} was deleted.",
+            )
+            db.session.add(new_activity)
+            db.session.commit()
+
             flash('Schedule deleted successfully.', 'success')
         except Exception as e:
             db.session.rollback()
@@ -142,6 +156,12 @@ def create_schedule_controller(app):
 
                 schedule.AppointmentDate = appointment_date
                 schedule.FormID = form_id
+
+                new_activity = ActivityLog(
+                    Action=f"Schedule with {schedule.AppointmentDate.strftime('%Y-%m-%d %H:%M')} was updated.",
+                )
+                db.session.add(new_activity)
+                db.session.commit()
 
                 db.session.commit()
 
