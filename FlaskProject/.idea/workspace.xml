@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c17c8d79-0692-4bcb-a8b2-e1a5c5f8f88e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/403361b2-7e27-4953-9fa3-ecd43b0abc73.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/403361b2-7e27-4953-9fa3-ecd43b0abc73.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/report_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/report_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/assistant/report_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/assistant/report_create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/dashboard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/validation.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +163,8 @@
       <workItem from="1736537834122" duration="65000" />
       <workItem from="1736614942272" duration="3459000" />
       <workItem from="1736758460871" duration="8912000" />
-      <workItem from="1736779160736" duration="5491000" />
+      <workItem from="1736779160736" duration="5686000" />
+      <workItem from="1736834205779" duration="3124000" />
     </task>
     <servers />
   </component>
@@ -181,6 +184,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FlaskProject$create_db.coverage" NAME="create_db Coverage Results" MODIFIED="1729614756268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FlaskProject$FlaskProject.coverage" NAME="FlaskProject Coverage Results" MODIFIED="1736791925750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FlaskProject$FlaskProject.coverage" NAME="FlaskProject Coverage Results" MODIFIED="1736835202225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
